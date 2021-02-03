@@ -14,7 +14,7 @@ stages:
   script:
     # Prepare web-root
     - rm -rf /data
-    - mkdir -r /data/lib
+    - mkdir -p /data/lib
 
     # Build SDK
     - npm ci
