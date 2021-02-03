@@ -14,24 +14,27 @@ stages:
   script:
     # Prepare web-root
     - rm -rf /data
-    - mkdir /data
+    - mkdir -r /data/lib
 
     # Build SDK
     - npm ci
     - npm run dist
-    - mv ./dist/* /data/
+    - mv ./dist/* /data/lib/
 
     # Build Docs (VuePress)
     - cd "${CI_PROJECT_DIR}/docs"
     - npm ci
     - npm run build
-    - mv ./src/.vuepress/dist /data/docs
+    - mv ./src/.vuepress/dist/* /data
 
     - rm -rf "${CI_PROJECT_DIR}"
 
     - chown -R nginx:nginx /data
     - echo 'server { listen 80 default_server; root /data; index index.html index.htm; try_files $uri $uri/ /index.html =404; }' > /etc/nginx/conf.d/default.conf
     - echo "YOUR LINK - https://${PROXY_build_DOMAIN}"
+    - echo "JS SDK:"
+    - echo "  - https://${PROXY_build_DOMAIN}/lib/livetag.js"
+    - echo "  - https://${PROXY_build_DOMAIN}/lib/livetag.esm.js"
     - nginx
 
 deploy:dev:
