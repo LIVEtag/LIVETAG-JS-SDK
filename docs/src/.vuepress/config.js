@@ -41,7 +41,7 @@ module.exports = {
       },
       {
         text: 'LiveTag',
-        link: 'https://livetag.com'
+        link: 'https://www.livetag.sg/'
       }
     ],
     sidebar: {
