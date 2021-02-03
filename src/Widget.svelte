@@ -1,0 +1,86 @@
+<script>
+  import { onDestroy, onMount } from 'svelte';
+  import { createSignal, SIGNAL_INIT } from './signal';
+
+  export let src = '';
+  export let ready = false;
+  export let minimized = false;
+  export let timeout = 10000;
+  export let onLoad = (port) => undefined;
+  export let onSignal = (event) => undefined;
+  export let onError = () => undefined;
+
+  $: origin = (new URL(src)).origin;
+
+  let timeoutId;
+
+  onMount(() => {
+    timeoutId = setTimeout(() => {
+      onError();
+    }, timeout);
+  });
+
+  onDestroy(() => {
+    clearTimeout(timeoutId);
+  });
+
+  function handleLoad({ target: { contentWindow } }) {
+    let channel = new MessageChannel();
+    channel.port1.onmessage = onSignal;
+
+    function onMessage(e) {
+      if (e.origin === origin && e.data === 'loaded') {
+        clearTimeout(timeoutId);
+
+        contentWindow.postMessage(createSignal(SIGNAL_INIT), origin, [channel.port2]);
+
+        onLoad(channel.port1);
+
+        window.removeEventListener('message', onMessage);
+      }
+    }
+
+    window.addEventListener('message', onMessage);
+  }
+</script>
+
+<iframe
+  title="Livetag"
+  class="livetag__iframe {ready ? 'livetag__iframe--ready' : ''} {minimized ? 'livetag__iframe--minimized' : ''}"
+  src={src}
+  on:load={handleLoad}
+  allow="fullscreen; autoplay;"
+  allowtransparency="true"
+></iframe>
+
+<style>
+  .livetag__iframe {
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative !important;
+    top: initial !important;
+    left: initial !important;
+    right: initial !important;
+    bottom: initial !important;
+    box-sizing: border-box !important;
+    visibility: hidden;
+    transition: opacity 0.2s ease-out;
+    pointer-events: none;
+  }
+
+  .livetag__iframe--ready {
+    opacity: 1 !important;
+    padding: 3em !important;
+    visibility: visible;
+    transition: opacity 0.2s ease-in;
+    pointer-events: initial;
+  }
+
+  .livetag__iframe--minimized {
+    padding: 0 !important;
+  }
+</style>

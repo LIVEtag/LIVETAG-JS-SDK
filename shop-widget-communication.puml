@@ -1,0 +1,71 @@
+@startuml "Digramm"
+
+scale .97
+skinparam WrapWidth 300
+
+title Interaction between the shop website and the widget
+
+actor User
+participant Shop
+participant "LiveTag JS SDK" as SDK
+participant "LiveTag Widget\n(iframe)" as Widget
+participant "REST API" as Api
+
+User -> Shop : Open shop website
+Shop -> SDK : Load SDK
+
+activate SDK
+  SDK --> SDK : Generate and store UUID\nto identify user\nif UUID does not exist
+deactivate SDK
+
+note over User,Shop
+== Description
+
+# The user visit the shop website
+# The shop website downloads the LiveTag JS SDK (hereinafter SDK) library
+# SDK generates a UUID to identify the user on the first visit
+# The user presses the "Watch now" button
+# The SDK opens the widget and passes the user UUID and Shop URI (""shopUri"") of the store via a URL (""/{shopUri}?uid={uid}"")
+# Widget request from REST API:
+## Shop config
+## Active live stream
+## Products
+## Comments
+end note
+
+||10||
+
+...
+
+== Watch live stream ==
+
+||10||
+
+User -> Shop : Watch live stream
+activate Shop
+  Shop -> SDK : Request open widget
+  SDK -> Widget : Open widget
+
+  activate Widget
+
+    Widget -> Api : GET /:shopId/config
+      activate Api
+      return Shop config
+
+    Widget -> Api : GET /shop/:shopUri/stream-session/current
+    activate Api
+    return Active stream
+
+    Widget -> Api : GET /:shopId/product
+    activate Api
+    return Products List
+
+    Widget -> Api : GET /:shopId/comment
+    activate Api
+    return Comments List
+  deactivate Widget
+deactivate Shop
+
+|||
+
+@enduml

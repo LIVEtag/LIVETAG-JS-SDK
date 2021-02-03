@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>LiveTag Demo Shop</title>
+
+  <base href="/"/>
+
+  <style>
+    html {
+      font-size: 1em;
+      font-family: sans-serif;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      display: grid;
+      grid-gap: 1em;
+    }
+  </style>
+</head>
+
+<body>
+<h1>LiveTag Demo Shop</h1>
+
+<div class="grid">
+  <div>
+    <button type="button" data-livetag>Watch Now</button>
+    <button type="button" data-livetag data-livetag-minimized>Watch Now (minimized)</button>
+    <button id="watch-session" type="button">Watch Session</button>
+
+    <input type="text" name="sessionId" placeholder="Session Id"/>
+  </div>
+</div>
+
+<script>
+  (function (l, i, v, e, t, a, g) {
+    if ('Livetag' in l) {
+      return;
+    }
+
+    l.LivetagConfig = {
+      project: e,
+      widgetUrl: t,
+      autoInit: true,
+    };
+
+    //
+    // ES Modules
+    //
+    // import('../dist/livetag.esm.js').then((Livetag) => {
+    //   // Use Livetag methods
+    //   console.log(Livetag);
+    // });
+
+    var s = i.createElement(v);
+    s.async = !0;
+    s.src = '../dist/livetag.js';
+    i.body.appendChild(s);
+  })(window, document, 'script', 'shop1', 'https://dev-livetag-frontend.ci.gbksoft.net' || 'http://localhost:4200');
+</script>
+
+<script>
+  (function () {
+    document.querySelector('#watch-session').addEventListener('click', () => {
+      var sessionId = document.querySelector('[name="sessionId"]').value;
+      window.Livetag.open(sessionId);
+    });
+  })();
+</script>
+
+</body>
+</html>
