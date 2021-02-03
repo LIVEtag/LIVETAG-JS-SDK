@@ -48,7 +48,10 @@ const config = {
         dev: env === 'development',
       },
     }),
-    postcss({ inject: true }),
+    postcss({
+      inject: true,
+      minimize: production,
+    }),
     resolve({
       browser: true,
       dedupe: ['svelte'],
