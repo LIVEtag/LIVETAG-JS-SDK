@@ -12,13 +12,26 @@ stages:
 
 .deploy_script_template: &deploy_script_definition
   script:
+    # Prepare web-root
+    - rm -rf /data
+    - mkdir /data
+
+    # Build SDK
+    - npm ci
+    - npm run dist
+    - mv "${CI_PROJECT_DIR}/dist/*" /data/
+
+    # Build Docs (VuePress)
+    - cd "${CI_PROJECT_DIR}/docs"
     - npm ci
     - npm run build
-    - rm -rf /data
-    - ln -s "${CI_PROJECT_DIR}/dist" "/data"
+    - mv ./src/.vuepress/dist /data/docs
+
+    - rm -rf "${CI_PROJECT_DIR}"
+
     - chown -R nginx:nginx /data
-    - echo  'server { listen 80 default_server; root /data; index index.html index.htm; try_files $uri $uri/ /index.html =404; }' > /etc/nginx/conf.d/default.conf
-    - echo "YOUR LINK - ${PROXY_build_DOMAIN}"
+    - echo 'server { listen 80 default_server; root /data; index index.html index.htm; try_files $uri $uri/ /index.html =404; }' > /etc/nginx/conf.d/default.conf
+    - echo "YOUR LINK - https://${PROXY_build_DOMAIN}"
     - nginx
 
 deploy:dev:
