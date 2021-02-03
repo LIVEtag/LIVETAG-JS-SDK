@@ -1,7 +1,7 @@
 import App from './App.svelte';
 
-let defaultConfig = { project: undefined, widgetUrl: undefined, autoInit: false };
-let config = Object.assign({}, defaultConfig, window.LivetagConfig);
+const defaultConfig = Object.freeze({ project: undefined, widgetUrl: undefined, autoInit: false });
+
 let app;
 
 export function init() {
@@ -11,11 +11,29 @@ export function init() {
     return;
   }
 
+  const config = Object.assign({}, defaultConfig, window.LivetagConfig);
+
+  if (!config.project || typeof config.project !== 'string') {
+    console.error(
+      '[Livetag] Incorrect "LivetagConfig". Property "project" cannot be blank and must be of type string.'
+    );
+
+    return;
+  }
+
+  if (!config.widgetUrl || typeof config.widgetUrl !== 'string') {
+    console.error(
+      '[Livetag] Incorrect "LivetagConfig". Property "widgetUrl" cannot be blank and must be of type string.'
+    );
+
+    return;
+  }
+
   app = new App({
     target: document.body,
     props: {
-      shopId: config.project,
-      widgetUrl: config.widgetUrl,
+      shopId: String(config.project),
+      widgetUrl: String(config.widgetUrl),
     },
   });
 
