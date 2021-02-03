@@ -19,7 +19,7 @@ stages:
     # Build SDK
     - npm ci
     - npm run dist
-    - mv "${CI_PROJECT_DIR}/dist/*" /data/
+    - mv ./dist/* /data/
 
     # Build Docs (VuePress)
     - cd "${CI_PROJECT_DIR}/docs"
