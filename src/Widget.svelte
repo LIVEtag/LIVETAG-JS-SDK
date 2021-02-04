@@ -9,7 +9,7 @@
   export let onSignal = (event) => undefined;
   export let onError = () => undefined;
 
-  $: origin = (new URL(src)).origin;
+  $: origin = new URL(src).origin;
 
   let timeoutId;
 
@@ -24,7 +24,7 @@
   });
 
   function handleLoad({ target: { contentWindow } }) {
-    let channel = new MessageChannel();
+    const channel = new MessageChannel();
     channel.port1.onmessage = (event) => {
       if (event && event.data && event.data.type === SIGNAL_READY) {
         clearTimeout(timeoutId);
@@ -48,15 +48,15 @@
   }
 </script>
 
-
 <iframe
   title="Livetag"
-  class="livetag__iframe {ready ? 'livetag__iframe--ready' : ''}"
-  src={src}
+  class="livetag__iframe"
+  class:livetag__iframe--ready={ready}
+  {src}
   on:load={handleLoad}
   allow="fullscreen; autoplay;"
   allowtransparency="true"
-></iframe>
+/>
 
 <style>
   .livetag__iframe {

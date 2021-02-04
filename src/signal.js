@@ -4,6 +4,7 @@ export const SIGNAL_INIT = `${prefix}/init`;
 export const SIGNAL_READY = `${prefix}/ready`;
 export const SIGNAL_CLOSE = `${prefix}/close`;
 export const SIGNAL_MINIMIZE = `${prefix}/minimize`;
+export const SIGNAL_IS_MOBILE = `${prefix}/isMobile`;
 export const SIGNAL_RESTORE = `${prefix}/restore`;
 export const SIGNAL_PRODUCT_ADD_TO_CART = `${prefix}/product/addToCart`;
 export const SIGNAL_PRODUCT_VIEW = `${prefix}/product/view`;

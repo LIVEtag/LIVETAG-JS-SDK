@@ -36,13 +36,17 @@ export function draggable(node) {
   let xOffset = x;
   let yOffset = y;
 
-  let onDragEndDebounced = debounce(({ x, y }) => {
-    node.dispatchEvent(
-      new CustomEvent('drag-end', {
-        detail: { x, y },
-      })
-    );
-  }, 500);
+  let onDragEndDebounced = debounce(
+    ({ x, y }) => {
+      node.dispatchEvent(
+        new CustomEvent('drag-end', {
+          detail: { x, y },
+        })
+      );
+    },
+    200,
+    false
+  );
 
   node.addEventListener('mousedown', dragStart);
   node.addEventListener('touchstart', dragStart);

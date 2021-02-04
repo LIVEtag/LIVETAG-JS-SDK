@@ -1,23 +1,24 @@
 <script>
+  import { afterUpdate, beforeUpdate, createEventDispatcher } from 'svelte';
+  import { createWidgetUrl } from './create-widget-url';
   import { debounce } from './debounce';
   import { isDesktopBrowser, isMobileBrowser } from './device-type';
-  import { widget } from './widgetStore';
-  import Widget from './Widget.svelte';
-  import Loader from './Loader.svelte';
   import { drag } from './draggable';
-  import { beforeUpdate, afterUpdate, createEventDispatcher } from 'svelte';
+  import Loader from './Loader.svelte';
   import {
     createSignal,
     SIGNAL_CHECKOUT,
     SIGNAL_CLOSE,
+    SIGNAL_IS_MOBILE,
     SIGNAL_MINIMIZE,
     SIGNAL_PRODUCT_ADD_TO_CART,
     SIGNAL_PRODUCT_VIEW,
     SIGNAL_READY,
     SIGNAL_RESTORE,
   } from './signal';
-  import { createWidgetUrl } from './create-widget-url';
   import { generateUid, getUid, storeUid } from './uid';
+  import Widget from './Widget.svelte';
+  import { widget } from './widgetStore';
 
   let uid = getUid() || generateUid();
   storeUid(uid);
@@ -46,10 +47,13 @@
   let translate = null;
 
   let shopUrl = window.location.href;
+  let src = createWidgetUrl(widgetUrl, shopId, { uid, sessionId, isDesktop, shopUrl });
 
-  $: _minimized = !isMobile && minimized;
-  $: widgetUrl = createWidgetUrl(widgetUrl, shopId, { uid, sessionId, isDesktop, shopUrl });
-  $: translateStyle = minimized && isDesktop && translate && (translate.x || translate.y) ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)` : 'initial';
+  $: isMinimized = !isMobile && minimized;
+  $: translateStyle =
+    minimized && isDesktop && translate && (translate.x || translate.y)
+      ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)`
+      : 'initial';
 
   beforeUpdate(() => {
     if (!open && loadingError) {
@@ -58,8 +62,11 @@
   });
 
   afterUpdate(() => {
-    signal(SIGNAL_MINIMIZE, minimized);
-    widget.set({ open, minimized, sessionId, translate });
+    if (isDesktop) {
+      signal(SIGNAL_MINIMIZE, isMinimized);
+    }
+
+    widget.set({ open, minimized: isMinimized, sessionId, translate });
   });
 
   //
@@ -80,7 +87,8 @@
   }
 
   function minimize() {
-    minimized = true;
+    minimized = isDesktop;
+    translate = null;
   }
 
   function restore() {
@@ -92,7 +100,7 @@
     [SIGNAL_READY]: (event, data) => {
       ready = true;
 
-      signal(SIGNAL_MINIMIZE, minimized);
+      signal(SIGNAL_MINIMIZE, isMinimized);
     },
     [SIGNAL_MINIMIZE]: (event, data) => {
       minimize();
@@ -103,7 +111,7 @@
     [SIGNAL_RESTORE]: (event, data) => {
       restore();
 
-      signal(SIGNAL_MINIMIZE, minimized);
+      signal(SIGNAL_MINIMIZE, isMinimized);
     },
     [SIGNAL_PRODUCT_ADD_TO_CART]: (event, data) => {
       dispatch('addToCart', data);
@@ -143,54 +151,101 @@
   }
 
   function onDragEnd({ detail: { x, y } }) {
-    if (translate === null || (translate.x !== x || translate.y !== y)) {
+    if (translate === null || translate.x !== x || translate.y !== y) {
       translate = { x, y };
     }
   }
 
-  const onResize = debounce(() => {
-    isMobile = isMobileBrowser();
-  }, 500);
+  const onResize = debounce(
+    () => {
+      isDesktop = isDesktopBrowser();
+      isMobile = isMobileBrowser();
+
+      signal(SIGNAL_IS_MOBILE, isMobile);
+    },
+    200,
+    false
+  );
 </script>
 
-<svelte:window on:resize={onResize}/>
+<svelte:window on:resize={onResize} />
 
 <div id="livetag">
   {#if open}
-    <div class="livetag__box {_minimized ? 'livetag__box--minimized' : ''} {isMobile ? 'livetag__box--mobile' : ''}" style="transform: {translateStyle}" use:drag={_minimized} on:drag-end={onDragEnd}>
+    <div
+      class="livetag__box"
+      class:livetag__box--minimized={isMinimized}
+      class:livetag__box--mobile={isMobile}
+      style="transform: {translateStyle}"
+      use:drag={isMinimized}
+      on:drag-end={onDragEnd}
+    >
       {#if !ready && !loadingError}
-        <Loader/>
+        <Loader />
       {/if}
 
       {#if loadingError}
-        <div class="livetag__error" on:click={close}>Live session cannot be loaded.<br>Please, try again.</div>
-      {:else}
-        <div class="livetag__iframe-wrapper" on:click={minimize}>
-          <Widget
-            src={widgetUrl}
-            {ready}
-            {onLoad}
-            {onSignal}
-            {onError}
-          />
+        <div class="livetag__error" on:click={close}>
+          Live session cannot be loaded.
+          <br />
+          Please, try again.
         </div>
+      {:else}
+        <Widget {src} {ready} {onLoad} {onSignal} {onError} />
       {/if}
 
-      {#if _minimized}
-        <div class="livetag__overlay"></div>
+      {#if isMinimized}
+        <div class="livetag__overlay" />
       {/if}
 
-      {#if _minimized || isMobile}
+      {#if isMinimized || isMobile}
         <div class="livetag__btns">
-          <button title="Maximize" class="livetag__btn livetag__btn-restore" on:click={restore}>
-            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <path d="M22.5 12.273l-7.5 7.5M7.5 12.273l7.5 7.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </button>
+          {#if !isMobile}
+            <button title="Maximize" class="livetag__btn livetag__btn-restore" on:click={restore}>
+              <svg
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 30 30"
+                fit=""
+                height="100%"
+                width="100%"
+                preserveAspectRatio="xMidYMid meet"
+                focusable="false"
+              >
+                <path
+                  d="M22.5 12.273l-7.5 7.5M7.5 12.273l7.5 7.5"
+                  stroke="#fff"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          {/if}
+
           <button title="Close" class="livetag__btn livetag__btn-close" on:click={close}>
-            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M13.03.97a.75.75 0 010 1.06l-11 11a.75.75 0 01-1.06-1.06l11-11a.75.75 0 011.06 0z" fill="#fff"></path>
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M.97.97a.75.75 0 011.06 0l11 11a.75.75 0 11-1.06 1.06l-11-11a.75.75 0 010-1.06z" fill="#fff"></path>
+            <svg
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 14 14"
+              fit=""
+              height="100%"
+              width="100%"
+              preserveAspectRatio="xMidYMid meet"
+              focusable="false"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.03.97a.75.75 0 010 1.06l-11 11a.75.75 0 01-1.06-1.06l11-11a.75.75 0 011.06 0z"
+                fill="#fff"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M.97.97a.75.75 0 011.06 0l11 11a.75.75 0 11-1.06 1.06l-11-11a.75.75 0 010-1.06z"
+                fill="#fff"
+              />
             </svg>
           </button>
         </div>
@@ -260,11 +315,6 @@
   }
 
   .livetag__box--mobile {
-
-  }
-
-  .livetag__box--mobile .livetag__iframe-wrapper {
-    padding: 0;
   }
 
   .livetag__box--minimized {
@@ -289,16 +339,5 @@
     right: 0;
     left: 0;
     cursor: move;
-  }
-
-  .livetag__iframe-wrapper {
-    padding: 3em;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-  }
-
-  .livetag__box--minimized .livetag__iframe-wrapper {
-    padding: 0;
   }
 </style>
