@@ -21,17 +21,27 @@ const initialState = {
   sessionId: null,
 };
 
-export const widget = writable(Object.assign({}, initialState, storage.get('widget', initialState)));
+const widgetStore = writable(Object.assign({}, initialState, storage.get('widget', initialState)));
 
-export const getState = (store, fn) => {
-  const state = get(store);
-
-  fn(state);
+export const widget = {
+  set(value) {
+    widgetStore.set({
+      ...value,
+      translate: value.minimized ? value.translate : null,
+    });
+  },
+  update(updater) {
+    widgetStore.update(updater);
+  },
+  getState(fn) {
+    const state = get(widgetStore);
+    fn(state);
+  },
 };
 
 //
 // Persist state to localStorage
 //
-widget.subscribe((value) => {
+widgetStore.subscribe((value) => {
   storage.set('widget', value);
 });

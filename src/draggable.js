@@ -28,7 +28,6 @@ export function drag(node, enable) {
 
 export function draggable(node) {
   const [x, y] = getTranslate(node);
-  const originalTransform = node.style.transform;
 
   let currentX;
   let currentY;
@@ -99,7 +98,7 @@ export function draggable(node) {
       node.removeEventListener('mousedown', dragStart);
       node.removeEventListener('touchstart', dragStart);
 
-      node.style.transform = originalTransform;
+      node.style.transform = null;
     },
   };
 }

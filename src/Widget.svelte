@@ -4,7 +4,6 @@
 
   export let src = '';
   export let ready = false;
-  export let minimized = false;
   export let timeout = 10000;
   export let onLoad = (port) => undefined;
   export let onSignal = (event) => undefined;
@@ -52,7 +51,7 @@
 
 <iframe
   title="Livetag"
-  class="livetag__iframe {ready ? 'livetag__iframe--ready' : ''} {minimized ? 'livetag__iframe--minimized' : ''}"
+  class="livetag__iframe {ready ? 'livetag__iframe--ready' : ''}"
   src={src}
   on:load={handleLoad}
   allow="fullscreen; autoplay;"

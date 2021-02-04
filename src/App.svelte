@@ -1,5 +1,7 @@
 <script>
-  import { widget, getState } from './store';
+  import { debounce } from './debounce';
+  import { isDesktopBrowser, isMobileBrowser } from './device-type';
+  import { widget } from './widgetStore';
   import Widget from './Widget.svelte';
   import Loader from './Loader.svelte';
   import { drag } from './draggable';
@@ -31,7 +33,9 @@
   export let shopId;
   export let widgetUrl;
   export let sessionId = null;
-  let isDesktop = true;
+
+  let isDesktop = isDesktopBrowser();
+  let isMobile = isMobileBrowser();
 
   //
   // Widget state props
@@ -43,8 +47,9 @@
 
   let shopUrl = window.location.href;
 
+  $: _minimized = !isMobile && minimized;
   $: widgetUrl = createWidgetUrl(widgetUrl, shopId, { uid, sessionId, isDesktop, shopUrl });
-  $: translateStyle = minimized && translate && (translate.x || translate.y) ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)` : '';
+  $: translateStyle = minimized && isDesktop && translate && (translate.x || translate.y) ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)` : 'initial';
 
   beforeUpdate(() => {
     if (!open && loadingError) {
@@ -60,9 +65,9 @@
   //
   // Get initial state data and unsubscribe from store
   //
-  getState(widget, (state) => {
+  widget.getState((state) => {
     open = state.open;
-    minimized = state.minimized;
+    minimized = isDesktop && state.minimized;
     sessionId = state.sessionId;
     translate = state.translate;
   });
@@ -142,11 +147,17 @@
       translate = { x, y };
     }
   }
+
+  const onResize = debounce(() => {
+    isMobile = isMobileBrowser();
+  }, 500);
 </script>
+
+<svelte:window on:resize={onResize}/>
 
 <div id="livetag">
   {#if open}
-    <div class="livetag__box {minimized ? 'livetag__box--minimized' : ''}" style="transform: {translateStyle}" use:drag={minimized} on:drag-end={onDragEnd}>
+    <div class="livetag__box {_minimized ? 'livetag__box--minimized' : ''} {isMobile ? 'livetag__box--mobile' : ''}" style="transform: {translateStyle}" use:drag={_minimized} on:drag-end={onDragEnd}>
       {#if !ready && !loadingError}
         <Loader/>
       {/if}
@@ -158,7 +169,6 @@
           <Widget
             src={widgetUrl}
             {ready}
-            {minimized}
             {onLoad}
             {onSignal}
             {onError}
@@ -166,9 +176,11 @@
         </div>
       {/if}
 
-      {#if minimized}
+      {#if _minimized}
         <div class="livetag__overlay"></div>
+      {/if}
 
+      {#if _minimized || isMobile}
         <div class="livetag__btns">
           <button title="Maximize" class="livetag__btn livetag__btn-restore" on:click={restore}>
             <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
@@ -247,6 +259,14 @@
     z-index: 2147483647;
   }
 
+  .livetag__box--mobile {
+
+  }
+
+  .livetag__box--mobile .livetag__iframe-wrapper {
+    padding: 0;
+  }
+
   .livetag__box--minimized {
     position: absolute;
     bottom: 0;
@@ -276,5 +296,9 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+  }
+
+  .livetag__box--minimized .livetag__iframe-wrapper {
+    padding: 0;
   }
 </style>
