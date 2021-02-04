@@ -1,6 +1,6 @@
 <script>
   import { onDestroy, onMount } from 'svelte';
-  import { createSignal, SIGNAL_INIT } from './signal';
+  import { createSignal, SIGNAL_INIT, SIGNAL_READY } from './signal';
 
   export let src = '';
   export let ready = false;
@@ -26,12 +26,17 @@
 
   function handleLoad({ target: { contentWindow } }) {
     let channel = new MessageChannel();
-    channel.port1.onmessage = onSignal;
+    channel.port1.onmessage = (event) => {
+      if (event && event.data && event.data.type === SIGNAL_READY) {
+        clearTimeout(timeoutId);
+        onSignal(event);
+      }
+
+      channel.port1.onmessage = onSignal;
+    };
 
     function onMessage(e) {
       if (e.origin === origin && e.data === 'loaded') {
-        clearTimeout(timeoutId);
-
         contentWindow.postMessage(createSignal(SIGNAL_INIT), origin, [channel.port2]);
 
         onLoad(channel.port1);
@@ -43,6 +48,7 @@
     window.addEventListener('message', onMessage);
   }
 </script>
+
 
 <iframe
   title="Livetag"
@@ -74,13 +80,8 @@
 
   .livetag__iframe--ready {
     opacity: 1 !important;
-    padding: 3em !important;
     visibility: visible;
     transition: opacity 0.2s ease-in;
     pointer-events: initial;
-  }
-
-  .livetag__iframe--minimized {
-    padding: 0 !important;
   }
 </style>

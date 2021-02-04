@@ -109,6 +109,6 @@ function initError() {
 //
 // Initialize Livetag
 //
-if (config.autoInit) {
+if (window.LivetagConfig != null && window.LivetagConfig.autoInit) {
   init();
 }

@@ -154,14 +154,16 @@
       {#if loadingError}
         <div class="livetag__error" on:click={close}>Live session cannot be loaded.<br>Please, try again.</div>
       {:else}
-        <Widget
-          src={widgetUrl}
-          {ready}
-          {minimized}
-          {onLoad}
-          {onSignal}
-          {onError}
-        />
+        <div class="livetag__iframe-wrapper" on:click={minimize}>
+          <Widget
+            src={widgetUrl}
+            {ready}
+            {minimized}
+            {onLoad}
+            {onSignal}
+            {onError}
+          />
+        </div>
       {/if}
 
       {#if minimized}
@@ -267,5 +269,12 @@
     right: 0;
     left: 0;
     cursor: move;
+  }
+
+  .livetag__iframe-wrapper {
+    padding: 3em;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
   }
 </style>
