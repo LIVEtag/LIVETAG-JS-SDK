@@ -46,9 +46,9 @@
   let ready = false;
   let translate = null;
 
-  let shopUrl = window.location.href;
-  let src = createWidgetUrl(widgetUrl, shopId, { uid, sessionId, isDesktop, shopUrl });
+  let src = createWidgetUrl(widgetUrl, shopId, { uid, sessionId, isDesktop, shopUrl: window.location.href });
 
+  let isMinimized, translateStyle;
   $: isMinimized = !isMobile && minimized;
   $: translateStyle =
     minimized && isDesktop && translate && (translate.x || translate.y)
