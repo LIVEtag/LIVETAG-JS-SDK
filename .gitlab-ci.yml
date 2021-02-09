@@ -31,10 +31,11 @@ stages:
 
     - chown -R nginx:nginx /data
     - echo 'server { listen 80 default_server; root /data; index index.html index.htm; try_files $uri $uri/ /index.html =404; }' > /etc/nginx/conf.d/default.conf
-    - echo "YOUR LINK - https://${PROXY_build_DOMAIN}"
-    - echo "JS SDK:"
-    - echo "  - https://${PROXY_build_DOMAIN}/lib/livetag.js"
-    - echo "  - https://${PROXY_build_DOMAIN}/lib/livetag.esm.js"
+    - |
+      echo "Docs: https://${PROXY_build_DOMAIN}"
+      echo "JS SDK:"
+      echo "  - https://${PROXY_build_DOMAIN}/lib/livetag.js"
+      echo "  - https://${PROXY_build_DOMAIN}/lib/livetag.esm.js"
     - nginx
 
 deploy:dev:
