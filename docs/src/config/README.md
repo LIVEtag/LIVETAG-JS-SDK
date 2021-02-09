@@ -1,7 +1,3 @@
----
-sidebar: auto
----
-
 # Config
 
 ## foo
@@ -13,3 +9,5 @@ sidebar: auto
 
 - Type: `string`
 - Default: `/`
+
+##
