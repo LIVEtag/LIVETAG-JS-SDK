@@ -1,3 +1,9 @@
+<script context="module">
+  export const EVENT_ADD_TO_CART = 'addToCart';
+  export const EVENT_VIEW_PRODUCT = 'viewProduct';
+  export const EVENT_CHECKOUT = 'checkout';
+</script>
+
 <script>
   import { afterUpdate, beforeUpdate, createEventDispatcher } from 'svelte';
   import { createWidgetUrl } from './create-widget-url';
@@ -114,13 +120,13 @@
       signal(SIGNAL_MINIMIZE, isMinimized);
     },
     [SIGNAL_PRODUCT_ADD_TO_CART]: (event, data) => {
-      dispatch('addToCart', data);
+      dispatch(EVENT_ADD_TO_CART, data);
     },
     [SIGNAL_PRODUCT_VIEW]: (event, data) => {
-      dispatch('viewProduct', data);
+      dispatch(EVENT_VIEW_PRODUCT, data);
     },
     [SIGNAL_CHECKOUT]: (event, data) => {
-      dispatch('checkout', data);
+      dispatch(EVENT_CHECKOUT, data);
     },
   };
 
@@ -206,7 +212,6 @@
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 30 30"
-                fit=""
                 height="100%"
                 width="100%"
                 preserveAspectRatio="xMidYMid meet"
@@ -228,7 +233,6 @@
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 14 14"
-              fit=""
               height="100%"
               width="100%"
               preserveAspectRatio="xMidYMid meet"

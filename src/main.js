@@ -1,4 +1,4 @@
-import App from './App.svelte';
+import App, { EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT, EVENT_CHECKOUT } from './App.svelte';
 
 const defaultConfig = Object.freeze({ project: undefined, widgetUrl: undefined, autoInit: false });
 
@@ -94,7 +94,9 @@ export const maximize = maybeApp(() => {
   app.$set({ minimize: false });
 });
 
-export let on = maybeApp((eventName, listener) => app.$on(eventName, listener));
+export let onAddToCart = maybeApp((listener) => app.$on(EVENT_ADD_TO_CART, listener));
+export let onViewProduct = maybeApp((listener) => app.$on(EVENT_VIEW_PRODUCT, listener));
+export let onCheckout = maybeApp((listener) => app.$on(EVENT_CHECKOUT, listener));
 
 export const destroy = maybeApp(() => {
   app.$destroy();
