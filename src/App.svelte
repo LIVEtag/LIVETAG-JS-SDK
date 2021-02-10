@@ -266,7 +266,7 @@
     border-radius: 50%;
     color: #fff;
     font-size: 32px;
-    line-height: 32px;
+    line-height: 0;
     padding: 0;
     cursor: pointer;
   }
