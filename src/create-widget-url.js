@@ -1,2 +1,2 @@
-export const createWidgetUrl = (widgetUrl, shopId, { uid, isDesktop = true, sessionId = null, shopUrl = '' }) =>
-  `${widgetUrl}/${shopId}?uid=${uid}&sessionId=${sessionId || ''}&isDesktop=${+isDesktop}&shopUrl=${shopUrl}`;
+export const createWidgetUrl = (widgetUrl, projectId, { uid, isDesktop = true, sessionId = null, shopUrl = '' }) =>
+  `${widgetUrl}/${projectId}?uid=${uid}&sessionId=${sessionId || ''}&isDesktop=${+isDesktop}&shopUrl=${shopUrl}`;

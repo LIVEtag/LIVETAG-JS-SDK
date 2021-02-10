@@ -1,6 +1,6 @@
 import App, { EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT, EVENT_CHECKOUT } from './App.svelte';
 
-const defaultConfig = Object.freeze({ project: undefined, widgetUrl: undefined, autoInit: false });
+const defaultConfig = Object.freeze({ projectId: undefined, autoInit: false });
 
 let app;
 
@@ -13,17 +13,9 @@ export function init() {
 
   const config = Object.assign({}, defaultConfig, window.LivetagConfig);
 
-  if (!config.project || typeof config.project !== 'string') {
+  if (!config.projectId || typeof config.projectId !== 'string') {
     console.error(
-      '[Livetag] Incorrect "LivetagConfig". Property "project" cannot be blank and must be of type string.'
-    );
-
-    return;
-  }
-
-  if (!config.widgetUrl || typeof config.widgetUrl !== 'string') {
-    console.error(
-      '[Livetag] Incorrect "LivetagConfig". Property "widgetUrl" cannot be blank and must be of type string.'
+      '[Livetag] Incorrect "LivetagConfig". Property "projectId" cannot be blank and must be of type string.'
     );
 
     return;
@@ -32,8 +24,8 @@ export function init() {
   app = new App({
     target: document.body,
     props: {
-      shopId: String(config.project),
-      widgetUrl: String(config.widgetUrl),
+      projectId: String(config.projectId),
+      widgetUrl: process.env.APP_WIDGET_URL,
     },
   });
 

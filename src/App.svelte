@@ -37,7 +37,7 @@
   //
   // Shop props
   //
-  export let shopId;
+  export let projectId;
   export let widgetUrl;
   export let sessionId = null;
 
@@ -52,7 +52,7 @@
   let ready = false;
   let translate = null;
 
-  let src = createWidgetUrl(widgetUrl, shopId, { uid, sessionId, isDesktop, shopUrl: window.location.href });
+  let src = createWidgetUrl(widgetUrl, projectId, { uid, sessionId, isDesktop, shopUrl: window.location.href });
 
   let isMinimized, translateStyle;
   $: isMinimized = !isMobile && minimized;
@@ -207,48 +207,31 @@
       {#if isMinimized || isMobile}
         <div class="livetag__btns">
           {#if !isMobile}
-            <button title="Maximize" class="livetag__btn livetag__btn-restore" on:click={restore}>
-              <svg
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 30 30"
-                height="100%"
-                width="100%"
-                preserveAspectRatio="xMidYMid meet"
-                focusable="false"
-              >
+            <button aria-label="Maximize" title="Maximize" class="livetag__btn livetag__btn-restore" on:click={restore}>
+              <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
-                  d="M22.5 12.273l-7.5 7.5M7.5 12.273l7.5 7.5"
-                  stroke="#fff"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M0.96967 9.25762C1.26256 9.55052 1.73744 9.55052 2.03033 9.25762L9 2.28795L15.9697 9.25762C16.2626 9.55052 16.7374 9.55052 17.0303 9.25762C17.3232 8.96473 17.3232 8.48986 17.0303 8.19696L9.53033 0.696965C9.23744 0.404072 8.76256 0.404072 8.46967 0.696965L0.96967 8.19696C0.676777 8.48986 0.676777 8.96473 0.96967 9.25762Z"
+                  fill="white"
                 />
               </svg>
             </button>
           {/if}
 
-          <button title="Close" class="livetag__btn livetag__btn-close" on:click={close}>
-            <svg
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 14"
-              height="100%"
-              width="100%"
-              preserveAspectRatio="xMidYMid meet"
-              focusable="false"
-            >
+          <button aria-label="Close" title="Close" class="livetag__btn livetag__btn-close" on:click={close}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
-                d="M13.03.97a.75.75 0 010 1.06l-11 11a.75.75 0 01-1.06-1.06l11-11a.75.75 0 011.06 0z"
-                fill="#fff"
+                d="M13.0303 0.96967C13.3232 1.26256 13.3232 1.73744 13.0303 2.03033L2.03033 13.0303C1.73744 13.3232 1.26256 13.3232 0.96967 13.0303C0.676777 12.7374 0.676777 12.2626 0.96967 11.9697L11.9697 0.96967C12.2626 0.676777 12.7374 0.676777 13.0303 0.96967Z"
+                fill="white"
               />
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
-                d="M.97.97a.75.75 0 011.06 0l11 11a.75.75 0 11-1.06 1.06l-11-11a.75.75 0 010-1.06z"
-                fill="#fff"
+                d="M0.96967 0.96967C1.26256 0.676777 1.73744 0.676777 2.03033 0.96967L13.0303 11.9697C13.3232 12.2626 13.3232 12.7374 13.0303 13.0303C12.7374 13.3232 12.2626 13.3232 11.9697 13.0303L0.96967 2.03033C0.676777 1.73744 0.676777 1.26256 0.96967 0.96967Z"
+                fill="white"
               />
             </svg>
           </button>
@@ -267,7 +250,7 @@
 
   .livetag__btns {
     position: absolute;
-    bottom: 0;
+    top: 0;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;

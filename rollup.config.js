@@ -8,6 +8,9 @@ import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
+// Load environment variables from .env file
+require('./env');
+
 const banner = `/**
  * ${pkg.description}
  * Version: ${pkg.version}
@@ -20,6 +23,7 @@ const production = process.env.NODE_ENV === 'production';
 
 const envVars = {
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  'process.env.APP_WIDGET_URL': JSON.stringify(process.env.APP_WIDGET_URL),
 };
 
 const config = {

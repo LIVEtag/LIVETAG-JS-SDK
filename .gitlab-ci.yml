@@ -46,6 +46,8 @@ deploy:dev:
     PROXY_build_HTTPS: '443:80'
     PROXY_build_HTTP: '80:80'
     PROXY_build_DOMAIN: dev-${MAIN_DOMAIN}
+    APP_WIDGET_URL: https://dev-livetag-frontend.ci.gbksoft.net
+    APP_SDK_URL: https://${PROXY_build_DOMAIN}
   environment:
     name: dev
     url: https://${PROXY_build_DOMAIN}
@@ -63,6 +65,8 @@ deploy:test:
     PROXY_build_HTTPS: '443:80'
     PROXY_build_HTTP: '80:80'
     PROXY_build_DOMAIN: test-${MAIN_DOMAIN}
+    APP_WIDGET_URL: https://test-livetag-frontend.ci.gbksoft.net
+    APP_SDK_URL: https://${PROXY_build_DOMAIN}
   environment:
     name: test
     url: https://${PROXY_build_DOMAIN}
@@ -80,6 +84,8 @@ deploy:live:
     PROXY_build_HTTPS: '443:80'
     PROXY_build_HTTP: '80:80'
     PROXY_build_DOMAIN: live-${MAIN_DOMAIN}
+    APP_WIDGET_URL: https://live-livetag-frontend.ci.gbksoft.net
+    APP_SDK_URL: https://${PROXY_build_DOMAIN}
   environment:
     name: live
     url: https://${PROXY_build_DOMAIN}

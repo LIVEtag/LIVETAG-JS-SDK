@@ -6,7 +6,7 @@
 
   <title>LiveTag Demo Shop</title>
 
-  <base href="/"/>
+  <base href="/" />
 
   <style>
     html {
@@ -40,19 +40,26 @@
     <button type="button" data-livetag data-livetag-minimized>Watch Now (minimized)</button>
     <button id="watch-session" type="button">Watch Session</button>
 
-    <input type="text" name="sessionId" placeholder="Session Id"/>
+    <input type="text" name="sessionId" placeholder="Session Id" />
   </div>
 </div>
 
-<script>
+<script type="application/javascript">
   (function (l, i, v, e, t, a, g) {
     if ('Livetag' in l) {
       return;
     }
 
+    // if (!l.initLivetag) {
+    //   l.initLivetag = function (item) {
+    //     l.initLivetag.queue.push(item);
+    //   };
+    //
+    //   l.initLivetag.queue = [];
+    // }
+
     l.LivetagConfig = {
-      project: e,
-      widgetUrl: t,
+      projectId: e,
       autoInit: true,
     };
 
@@ -68,10 +75,10 @@
     s.async = !0;
     s.src = '../dist/livetag.js';
     i.body.appendChild(s);
-  })(window, document, 'script', 'shop1', 'https://dev-livetag-frontend.ci.gbksoft.net' || 'http://localhost:4200');
+  })(window, document, 'script', 'shop1');
 </script>
 
-<script>
+<script type="application/javascript">
   (function () {
     document.querySelector('#watch-session').addEventListener('click', () => {
       var sessionId = document.querySelector('[name="sessionId"]').value;
