@@ -1,5 +1,7 @@
 # Integration
 
+## Initialization
+
 Place this snippet in `head` of the document:
 
 ```html
@@ -28,7 +30,6 @@ Replace `{projectId}` with your project id.
 
 ## Events
 
-Common interfaces
 ```typescript
 interface Product {
   title: string;
@@ -42,21 +43,21 @@ interface Product {
 
 ### onAddToCart
 ```typescript
-Livetag.onAddToCart((product: Product) => {
+let unsubscribe = Livetag.onAddToCart((product: Product) => {
   //
 });
 ```
 
 ### onViewProduct
 ```typescript
-Livetag.onViewProduct((product: Product) => {
+let unsubscribe = Livetag.onViewProduct((product: Product) => {
   //
 });
 ```
 
 ### onCheckout
 ```typescript
-Livetag.onCheckout((products: Product[]) => {
+let unsubscribe = Livetag.onCheckout((products: Product[]) => {
   //
 });
 ```
