@@ -1,4 +1,26 @@
+const env = require('../../env');
+const webpack = require('webpack');
+
 module.exports = {
+  markdown: {
+    extendMarkdown: md => {
+      const render = md.render;
+
+      md.render = (...args) => {
+        // original content
+        const html = render.call(md, ...args);
+
+        return Object.entries(env).reduce((result, [key, value]) => result.replace(new RegExp(`\{${key}\}`, 'g'), value), html);
+      };
+    },
+  },
+  configureWebpack: (config) => {
+    return {
+      plugins: [
+        new webpack.EnvironmentPlugin({ ...process.env }),
+      ],
+    };
+  },
   /**
    * Ref：https://vuepress.vuejs.org/config/#title
    */
@@ -29,8 +51,9 @@ module.exports = {
     editLinks: false,
     docsDir: '',
     editLinkText: '',
-    lastUpdated: false,
+    lastUpdated: true,
     displayAllHeaders: true,
+    sidebarDepth: 3,
     nav: [
       {
         text: 'Guide',
@@ -49,6 +72,11 @@ module.exports = {
       {
         title: 'Guide',
         path: '/',
+        collapsable: false,
+      },
+      {
+        title: 'Integration',
+        path: '/integration/',
         collapsable: false,
       },
       {

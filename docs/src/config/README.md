@@ -1,13 +1,24 @@
 # Config
 
-## foo
+```javascript
+window.LivetagConfig = {
+  projectId: e,
+  autoInit: true,
+};
+```
+
+## projectId
 
 - Type: `string`
-- Default: `/`
+- Default: empty
+- Required: true
 
-## bar
+Specify project id.
 
-- Type: `string`
-- Default: `/`
+## autoInit
 
-##
+- Type: `boolean`
+- Default: `true`
+- Required: false
+
+Specify which pattern of files you want to be resolved.
