@@ -1,9 +1,3 @@
-<script context="module">
-  export const EVENT_ADD_TO_CART = 'addToCart';
-  export const EVENT_VIEW_PRODUCT = 'viewProduct';
-  export const EVENT_CHECKOUT = 'checkout';
-</script>
-
 <script>
   import { afterUpdate, beforeUpdate, createEventDispatcher } from 'svelte';
   import { createWidgetUrl } from './create-widget-url';
@@ -22,6 +16,7 @@
     SIGNAL_READY,
     SIGNAL_RESTORE,
   } from './signal';
+  import { EVENT_READY, EVENT_CHECKOUT, EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT } from './events';
   import { generateUid, getUid, storeUid } from './uid';
   import Widget from './Widget.svelte';
   import { widget } from './widgetStore';
@@ -106,6 +101,7 @@
     [SIGNAL_READY]: (event, data) => {
       ready = true;
 
+      dispatch(EVENT_READY);
       signal(SIGNAL_MINIMIZE, isMinimized);
     },
     [SIGNAL_MINIMIZE]: (event, data) => {

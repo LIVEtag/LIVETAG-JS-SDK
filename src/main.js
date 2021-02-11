@@ -1,38 +1,8 @@
-import App, { EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT, EVENT_CHECKOUT } from './App.svelte';
-
-const defaultConfig = Object.freeze({ projectId: undefined, autoInit: false });
+import App from './App.svelte';
+import { EVENT_READY, EVENT_CHECKOUT, EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT } from './events';
+import { clearWidgetPersistStore } from './widgetStore';
 
 let app;
-
-export function init() {
-  if (app) {
-    console.info('[Livetag] Already initialized.');
-
-    return;
-  }
-
-  const config = Object.assign({}, defaultConfig, window.LivetagConfig);
-
-  if (!config.projectId || typeof config.projectId !== 'string') {
-    console.error(
-      '[Livetag] Incorrect "LivetagConfig". Property "projectId" cannot be blank and must be of type string.'
-    );
-
-    return;
-  }
-
-  app = new App({
-    target: document.body,
-    props: {
-      projectId: String(config.projectId),
-      widgetUrl: process.env.APP_WIDGET_URL,
-    },
-  });
-
-  registerListener();
-
-  console.log('[Livetag] Initialized.');
-}
 
 function documentClickHandler(e) {
   if (!app) {
@@ -86,6 +56,7 @@ export const maximize = maybeApp(() => {
   app.$set({ minimize: false });
 });
 
+export let onReady = maybeApp((listener) => app.$on(EVENT_READY, listener));
 export let onAddToCart = maybeApp((listener) => app.$on(EVENT_ADD_TO_CART, listener));
 export let onViewProduct = maybeApp((listener) => app.$on(EVENT_VIEW_PRODUCT, listener));
 export let onCheckout = maybeApp((listener) => app.$on(EVENT_CHECKOUT, listener));
@@ -94,15 +65,53 @@ export const destroy = maybeApp(() => {
   app.$destroy();
   app = undefined;
   removeListeners();
+  clearWidgetPersistStore();
+
+  console.error('[Livetag] Destroyed.');
 });
 
 function initError() {
   console.error('[Livetag] Call "Livetag.init()" first.');
 }
 
-//
-// Initialize Livetag
-//
-if (window.LivetagConfig != null && window.LivetagConfig.autoInit) {
-  init();
+/**
+ * @param {{ projectId: string }} params
+ * @return {void}
+ */
+export function init(params) {
+  if (app) {
+    console.error('[Livetag] Livetag already initialized.');
+
+    return;
+  }
+
+  if (params == null || typeof params !== 'object') {
+    console.error('[Livetag] Incorrect params. "params" cannot be blank and must be of type object.');
+
+    return;
+  }
+
+  if (!params.projectId || typeof params.projectId !== 'string') {
+    console.error(
+      '[Livetag] Incorrect "params.projectId". "params.projectId" cannot be blank and must be of type string.',
+    );
+
+    return;
+  }
+
+  try {
+    app = new App({
+      target: document.body,
+      props: {
+        projectId: String(params.projectId),
+        widgetUrl: process.env.APP_WIDGET_URL,
+      },
+    });
+
+    registerListener();
+
+    console.log('[Livetag] Initialized.');
+  } catch (e) {
+    console.log('[Livetag] Error initialization', e);
+  }
 }

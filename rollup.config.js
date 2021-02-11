@@ -27,23 +27,6 @@ const envVars = {
 };
 
 const config = {
-  input: 'src/index.js',
-  output: [
-    {
-      name: 'Livetag',
-      esModule: false,
-      exports: 'named',
-      file: 'dist/livetag.js',
-      format: 'umd',
-      sourcemap: !production,
-    },
-    {
-      esModule: true,
-      file: 'dist/livetag.esm.js',
-      format: 'esm',
-      sourcemap: !production,
-    },
-  ],
   plugins: [
     replace({ ...envVars }),
     svelte({
@@ -69,4 +52,27 @@ const config = {
   ],
 };
 
-export default config;
+export default [
+  {
+    ...config,
+    input: 'src/index.js',
+    output: {
+      esModule: false,
+      preserveModules: false,
+      exports: 'auto',
+      file: 'dist/livetag.js',
+      format: 'iife',
+      sourcemap: !production,
+    },
+  },
+  {
+    ...config,
+    input: 'src/index.esm.js',
+    output: {
+      esModule: true,
+      file: 'dist/livetag.esm.js',
+      format: 'esm',
+      sourcemap: !production,
+    },
+  },
+];

@@ -6,7 +6,7 @@
 
   <title>LiveTag Demo Shop</title>
 
-  <base href="/" />
+  <base href="/"/>
 
   <style>
     html {
@@ -40,51 +40,51 @@
     <button type="button" data-livetag data-livetag-minimized>Watch Now (minimized)</button>
     <button id="watch-session" type="button">Watch Session</button>
 
-    <input type="text" name="sessionId" placeholder="Session Id" />
+    <input type="text" name="sessionId" placeholder="Session Id"/>
   </div>
 </div>
 
-<script type="application/javascript">
+<script>
   (function (l, i, v, e, t, a, g) {
-    if ('Livetag' in l) {
-      return;
-    }
+    l.initLivetag = l.initLivetag || function () {
+      (l.initLivetag.q = l.initLivetag.q || []).push(arguments);
 
-    // if (!l.initLivetag) {
-    //   l.initLivetag = function (item) {
-    //     l.initLivetag.queue.push(item);
-    //   };
-    //
-    //   l.initLivetag.queue = [];
-    // }
-
-    l.LivetagConfig = {
-      projectId: e,
-      autoInit: true,
+      return l.initLivetag;
     };
 
     //
     // ES Modules
+    // Preferred better way to load and initialize Livetag SDK
     //
     // import('../dist/livetag.esm.js').then((Livetag) => {
-    //   // Use Livetag methods
-    //   console.log(Livetag);
+    // Use Livetag methods
+    // console.log('[Livetag]', Livetag);
+
+    // Livetag.init({ projectId: 'shop1' });
     // });
 
-    var s = i.createElement(v);
-    s.async = !0;
-    s.src = '../dist/livetag.js';
-    i.body.appendChild(s);
-  })(window, document, 'script', 'shop1');
+    initLivetag({ projectId: 'shop1' });
+    initLivetag(function (livetag) {
+      console.log('[Livetag]', livetag);
+    });
+
+    a = i.createElement(v);
+    a.async = !0;
+    a.src = '../dist/livetag.js';
+    g = i.getElementsByTagName('script')[0];
+    g.parentNode.insertBefore(a, g);
+  })(window, document, 'script');
 </script>
 
-<script type="application/javascript">
-  (function () {
+<script>
+  initLivetag(function (livetag) {
+    console.log('Register handler');
+
     document.querySelector('#watch-session').addEventListener('click', () => {
       var sessionId = document.querySelector('[name="sessionId"]').value;
-      window.Livetag.open(sessionId);
+      livetag.open(sessionId);
     });
-  })();
+  });
 </script>
 
 </body>

@@ -2,16 +2,20 @@ import { writable, get } from 'svelte/store';
 
 const storage = {
   prefix: 'livetag.',
+  store: sessionStorage,
   get(key, defaultValue) {
     try {
-      return JSON.parse(localStorage.getItem(`${this.prefix}${key}`)) || defaultValue;
+      return JSON.parse(this.store.getItem(`${this.prefix}${key}`)) || defaultValue;
     } catch (e) {
       return defaultValue;
     }
   },
   set(key, value) {
-    localStorage.setItem(`${this.prefix}${key}`, JSON.stringify(value));
+    this.store.setItem(`${this.prefix}${key}`, JSON.stringify(value));
   },
+  clear(key) {
+    this.store.removeItem(`${this.prefix}${key}`);
+  }
 };
 
 const initialState = {
@@ -40,8 +44,12 @@ export const widget = {
   },
 };
 
+export const clearWidgetPersistStore = () => {
+  storage.clear('widget');
+};
+
 //
-// Persist state to localStorage
+// Persist state to storage
 //
 widgetStore.subscribe((value) => {
   storage.set('widget', value);
