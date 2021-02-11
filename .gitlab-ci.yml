@@ -15,6 +15,7 @@ stages:
     # Prepare web-root
     - rm -rf /data
     - mkdir -p /data/lib
+    - export APP_SDK_URL="https://${PROXY_build_DOMAIN}"
 
     # Build SDK
     - npm ci
@@ -47,7 +48,6 @@ deploy:dev:
     PROXY_build_HTTP: '80:80'
     PROXY_build_DOMAIN: dev-${MAIN_DOMAIN}
     APP_WIDGET_URL: https://dev-livetag-frontend.ci.gbksoft.net
-    APP_SDK_URL: https://${PROXY_build_DOMAIN}
   environment:
     name: dev
     url: https://${PROXY_build_DOMAIN}
