@@ -65,6 +65,11 @@ export function draggable(node) {
   }
 
   function dragStart(e) {
+    // Start draging only if left mouse button is pressed
+    if (e.type === 'mousedown' && e.button !== 0) {
+      return;
+    }
+
     if (e.type === 'touchstart') {
       initialX = e.touches[0].clientX - xOffset;
       initialY = e.touches[0].clientY - yOffset;
