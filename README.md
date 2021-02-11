@@ -6,8 +6,8 @@
 
 ### Requirements
 
-- Node.js ^14.0.0
-- NPM ^6.14.0
+- Node.js ~14.15.0
+- NPM ~6.14.0
 
 ## Setup
 
