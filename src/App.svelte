@@ -304,8 +304,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    margin-bottom: 10px;
-    margin-right: 10px;
+    margin: 10px;
     user-select: none;
     line-height: 0;
     width: var(--livetag-widget-width--minimized);

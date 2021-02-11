@@ -65,7 +65,7 @@ export function draggable(node) {
   }
 
   function dragStart(e) {
-    // Start draging only if left mouse button is pressed
+    // Start dragging only if left mouse button is pressed
     if (e.type === 'mousedown' && e.button !== 0) {
       return;
     }
@@ -94,6 +94,20 @@ export function draggable(node) {
     } else {
       currentX = e.clientX - initialX;
       currentY = e.clientY - initialY;
+    }
+
+    let xPos = window.innerWidth + currentX - node.clientWidth;
+    if (xPos < 20) {
+      currentX = -(window.innerWidth - node.clientWidth - 20);
+    } else if (xPos > (window.innerWidth - node.clientWidth - 10)) {
+      currentX = 0;
+    }
+
+    let yPos = window.innerHeight + currentY - node.clientHeight;
+    if (yPos < 20) {
+      currentY = -(window.innerHeight - node.clientHeight - 20);
+    } else if (yPos > (window.innerHeight - node.clientHeight - 10)) {
+      currentY = 0;
     }
 
     xOffset = currentX;
