@@ -1,1 +1,12 @@
-export { init, open, close, minimize, maximize, destroy, onReady, onAddToCart, onViewProduct, onCheckout } from './main';
+export {
+  init,
+  open,
+  close,
+  minimize,
+  maximize,
+  destroy,
+  onReady,
+  onAddToCart,
+  onViewProduct,
+  onCheckout,
+} from './main';

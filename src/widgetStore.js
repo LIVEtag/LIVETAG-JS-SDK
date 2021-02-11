@@ -15,7 +15,7 @@ const storage = {
   },
   clear(key) {
     this.store.removeItem(`${this.prefix}${key}`);
-  }
+  },
 };
 
 const initialState = {

@@ -93,7 +93,7 @@ export function init(params) {
 
   if (!params.projectId || typeof params.projectId !== 'string') {
     console.error(
-      '[Livetag] Incorrect "params.projectId". "params.projectId" cannot be blank and must be of type string.',
+      '[Livetag] Incorrect "params.projectId". "params.projectId" cannot be blank and must be of type string.'
     );
 
     return;
