@@ -1,4 +1,4 @@
-import { init, open, close, minimize, maximize, destroy, onAddToCart, onViewProduct, onCheckout } from './main';
+import { init, open, close, minimize, maximize, destroy, onReady, onAddToCart, onViewProduct, onCheckout } from './main';
 
 const Livetag = Object.freeze({
   init,
@@ -7,6 +7,7 @@ const Livetag = Object.freeze({
   minimize,
   maximize,
   destroy,
+  onReady,
   onAddToCart,
   onViewProduct,
   onCheckout,
