@@ -4,8 +4,8 @@ TODO
 
 ## How It Works
 
-TODO
+* ...
 
 ## Features
 
-TODO
+* ...

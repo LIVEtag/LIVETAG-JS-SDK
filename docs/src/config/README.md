@@ -1,10 +1,17 @@
 # Config
 
+Configuration for SDK initialization.
+
 ```javascript
-window.LivetagConfig = {
-  projectId: e,
-  autoInit: true,
-};
+initLivetag({
+  projectId: '{projectId}',
+});
+
+// or
+
+Livetag.init({
+  projectId: '{projectId}',
+});
 ```
 
 ## projectId
@@ -14,11 +21,3 @@ window.LivetagConfig = {
 - Required: true
 
 Specify project id.
-
-## autoInit
-
-- Type: `boolean`
-- Default: `true`
-- Required: false
-
-Specify which pattern of files you want to be resolved.
