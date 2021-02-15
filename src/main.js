@@ -36,6 +36,8 @@ function removeListeners() {
   document.removeEventListener('click', documentClickHandler);
 }
 
+const listen = fn => ({ detail }) => fn(detail);
+
 export const open = maybeApp((sessionId, params = {}) => {
   app.$set({
     open: true,
@@ -56,10 +58,10 @@ export const maximize = maybeApp(() => {
   app.$set({ minimize: false });
 });
 
-export let onReady = maybeApp((listener) => app.$on(EVENT_READY, listener));
-export let onAddToCart = maybeApp((listener) => app.$on(EVENT_ADD_TO_CART, listener));
-export let onViewProduct = maybeApp((listener) => app.$on(EVENT_VIEW_PRODUCT, listener));
-export let onCheckout = maybeApp((listener) => app.$on(EVENT_CHECKOUT, listener));
+export let onReady = maybeApp((listener) => app.$on(EVENT_READY, listen(listener)));
+export let onAddToCart = maybeApp((listener) => app.$on(EVENT_ADD_TO_CART, listen(listener)));
+export let onViewProduct = maybeApp((listener) => app.$on(EVENT_VIEW_PRODUCT, listen(listener)));
+export let onCheckout = maybeApp((listener) => app.$on(EVENT_CHECKOUT, listen(listener)));
 
 export const destroy = maybeApp(() => {
   app.$destroy();
