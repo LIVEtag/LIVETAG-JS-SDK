@@ -96,11 +96,13 @@ Livetag.maximize();
 
 ```typescript
 interface Product {
-  title: string;
   sku: string;
+  title: string;
+  link: string;
+  photo: string;
   option: {
     price: number;
-    [key: string]: string | number;
+    [key: string]: string;
   }
 }
 ```
