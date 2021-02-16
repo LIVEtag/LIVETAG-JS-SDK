@@ -3,22 +3,23 @@ const webpack = require('webpack');
 
 module.exports = {
   markdown: {
-    extendMarkdown: md => {
+    extendMarkdown: (md) => {
       const render = md.render;
 
       md.render = (...args) => {
         // original content
         const html = render.call(md, ...args);
 
-        return Object.entries(env).reduce((result, [key, value]) => result.replace(new RegExp(`\{${key}\}`, 'g'), value), html);
+        return Object.entries(env).reduce(
+          (result, [key, value]) => result.replace(new RegExp(`\{${key}\}`, 'g'), value),
+          html
+        );
       };
     },
   },
   configureWebpack: (config) => {
     return {
-      plugins: [
-        new webpack.EnvironmentPlugin({ ...process.env }),
-      ],
+      plugins: [new webpack.EnvironmentPlugin({ ...process.env })],
     };
   },
   /**
@@ -41,6 +42,7 @@ module.exports = {
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+    ['link', { rel: 'shortcut icon', href: '/favicon.ico' }],
   ],
   theme: 'yuu',
   /**
@@ -92,8 +94,5 @@ module.exports = {
   /**
    * Apply plugins，ref：https://vuepress.vuejs.org/plugin/
    */
-  plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
-  ],
+  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom'],
 };

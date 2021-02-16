@@ -9,6 +9,7 @@
   },
   "repository": "/docs",
   "scripts": {
+    "start": "npm run dev",
     "dev": "vuepress dev src",
     "build": "vuepress build src"
   },
