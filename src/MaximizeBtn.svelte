@@ -1,0 +1,10 @@
+<button aria-label="Maximize" title="Maximize" class={$$props.class} on:click>
+  <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M0.96967 9.25762C1.26256 9.55052 1.73744 9.55052 2.03033 9.25762L9 2.28795L15.9697 9.25762C16.2626 9.55052 16.7374 9.55052 17.0303 9.25762C17.3232 8.96473 17.3232 8.48986 17.0303 8.19696L9.53033 0.696965C9.23744 0.404072 8.76256 0.404072 8.46967 0.696965L0.96967 8.19696C0.676777 8.48986 0.676777 8.96473 0.96967 9.25762Z"
+      fill="white"
+    />
+  </svg>
+</button>

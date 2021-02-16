@@ -19,6 +19,8 @@
   import { EVENT_READY, EVENT_CHECKOUT, EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT } from './events';
   import { generateUid, getUid, storeUid } from './uid';
   import Widget from './Widget.svelte';
+  import CloseBtn from './CloseBtn.svelte';
+  import MaximizeBtn from './MaximizeBtn.svelte';
   import { widget } from './widgetStore';
 
   let uid = getUid() || generateUid();
@@ -203,34 +205,10 @@
       {#if isMinimized || isMobile}
         <div class="livetag__btns">
           {#if !isMobile}
-            <button aria-label="Maximize" title="Maximize" class="livetag__btn livetag__btn-restore" on:click={restore}>
-              <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0.96967 9.25762C1.26256 9.55052 1.73744 9.55052 2.03033 9.25762L9 2.28795L15.9697 9.25762C16.2626 9.55052 16.7374 9.55052 17.0303 9.25762C17.3232 8.96473 17.3232 8.48986 17.0303 8.19696L9.53033 0.696965C9.23744 0.404072 8.76256 0.404072 8.46967 0.696965L0.96967 8.19696C0.676777 8.48986 0.676777 8.96473 0.96967 9.25762Z"
-                  fill="white"
-                />
-              </svg>
-            </button>
+            <MaximizeBtn class="livetag__btn" on:click={restore} />
           {/if}
 
-          <button aria-label="Close" title="Close" class="livetag__btn livetag__btn-close" on:click={close}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M13.0303 0.96967C13.3232 1.26256 13.3232 1.73744 13.0303 2.03033L2.03033 13.0303C1.73744 13.3232 1.26256 13.3232 0.96967 13.0303C0.676777 12.7374 0.676777 12.2626 0.96967 11.9697L11.9697 0.96967C12.2626 0.676777 12.7374 0.676777 13.0303 0.96967Z"
-                fill="white"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M0.96967 0.96967C1.26256 0.676777 1.73744 0.676777 2.03033 0.96967L13.0303 11.9697C13.3232 12.2626 13.3232 12.7374 13.0303 13.0303C12.7374 13.3232 12.2626 13.3232 11.9697 13.0303L0.96967 2.03033C0.676777 1.73744 0.676777 1.26256 0.96967 0.96967Z"
-                fill="white"
-              />
-            </svg>
-          </button>
+          <CloseBtn class="livetag__btn" on:click={close} />
         </div>
       {/if}
     </div>
@@ -254,7 +232,7 @@
     justify-content: space-between;
   }
 
-  .livetag__btn {
+  :global(.livetag__btn) {
     border: none;
     background-color: rgba(0, 0, 0, 0.35);
     width: 32px;
@@ -265,10 +243,6 @@
     line-height: 0;
     padding: 0;
     cursor: pointer;
-  }
-
-  .livetag__btn-close svg {
-    width: 16px;
   }
 
   .livetag__error {
@@ -297,9 +271,6 @@
     z-index: 2147483647;
   }
 
-  .livetag__box--mobile {
-  }
-
   .livetag__box--minimized {
     position: absolute;
     bottom: 0;
@@ -309,7 +280,8 @@
     line-height: 0;
     width: var(--livetag-widget-width--minimized);
     height: var(--livetag-widget-height--minimized);
-    box-shadow: 0 0 6px 2px #aaa;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11), 0 4px 4px rgba(0, 0, 0, 0.11),
+      0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
     border-radius: 10px;
     overflow: hidden;
   }
