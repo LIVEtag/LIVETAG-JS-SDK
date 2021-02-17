@@ -282,6 +282,7 @@
     height: 100%;
     overscroll-behavior: none;
     z-index: 2147483647;
+    will-change: transform;
   }
 
   .livetag__box--minimized {
