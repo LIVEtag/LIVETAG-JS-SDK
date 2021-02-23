@@ -12,6 +12,7 @@
   $: origin = new URL(src).origin;
 
   let timeoutId;
+  let onMessage;
 
   onMount(() => {
     timeoutId = setTimeout(() => {
@@ -21,7 +22,30 @@
 
   onDestroy(() => {
     clearTimeout(timeoutId);
+
+    removeOnMessageListener();
   });
+
+  function removeOnMessageListener() {
+    if (onMessage) {
+      window.removeEventListener('message', onMessage);
+      onMessage = undefined;
+    }
+  }
+
+  function registerOnMessageListener(frame, channel) {
+    onMessage = function (e) {
+      if (e.origin === origin && e.data === 'loaded') {
+        frame.postMessage(createSignal(SIGNAL_INIT), origin, [channel.port2]);
+
+        onLoad(channel.port1);
+
+        removeOnMessageListener();
+      }
+    };
+
+    window.addEventListener('message', onMessage);
+  }
 
   function handleLoad({ target: { contentWindow } }) {
     const channel = new MessageChannel();
@@ -34,17 +58,7 @@
       channel.port1.onmessage = onSignal;
     };
 
-    function onMessage(e) {
-      if (e.origin === origin && e.data === 'loaded') {
-        contentWindow.postMessage(createSignal(SIGNAL_INIT), origin, [channel.port2]);
-
-        onLoad(channel.port1);
-
-        window.removeEventListener('message', onMessage);
-      }
-    }
-
-    window.addEventListener('message', onMessage);
+    registerOnMessageListener(contentWindow, channel);
   }
 </script>
 
