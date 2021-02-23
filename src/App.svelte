@@ -46,10 +46,10 @@
   //
   export let open = false;
   export let minimized = false;
+
+  let src;
   let ready = false;
   let translate = null;
-
-  let src = createWidgetUrl(widgetUrl, projectId, { uid, sessionId, isDesktop, shopUrl: window.location.href });
 
   let isMinimized, translateStyle;
   $: isMinimized = !isMobile && minimized;
@@ -61,6 +61,14 @@
   beforeUpdate(() => {
     if (!open && loadingError) {
       loadingError = false;
+    }
+
+    if (!open) {
+      src = undefined;
+    }
+
+    if (open && !src) {
+      src = createWidgetUrl(widgetUrl, projectId, { uid, sessionId, isDesktop, shopUrl: window.location.href });
     }
   });
 
@@ -104,7 +112,9 @@
       ready = true;
 
       dispatch(EVENT_READY);
+
       signal(SIGNAL_MINIMIZE, isMinimized);
+      signal(SIGNAL_IS_MOBILE, isMobile);
     },
     [SIGNAL_MINIMIZE]: (event, data) => {
       minimize();
