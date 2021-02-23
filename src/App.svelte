@@ -51,8 +51,7 @@
   let ready = false;
   let translate = null;
 
-  let isMinimized, translateStyle;
-  $: isMinimized = minimized;
+  let translateStyle;
   $: translateStyle =
     minimized && translate && (translate.x || translate.y)
       ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)`
@@ -91,10 +90,10 @@
 
   afterUpdate(() => {
     if (isDesktop) {
-      signal(SIGNAL_MINIMIZE, isMinimized);
+      signal(SIGNAL_MINIMIZE, minimized);
     }
 
-    widget.set({ open, minimized: isMinimized, sessionId, translate });
+    widget.set({ open, minimized: minimized, sessionId, translate });
   });
 
   //
@@ -115,7 +114,7 @@
   }
 
   function minimize() {
-    minimized = isDesktop;
+    minimized = true;
     translate = null;
   }
 
@@ -130,7 +129,7 @@
 
       dispatch(EVENT_READY);
 
-      signal(SIGNAL_MINIMIZE, isMinimized);
+      signal(SIGNAL_MINIMIZE, minimized);
       signal(SIGNAL_IS_MOBILE, isMobile);
     },
     [SIGNAL_MINIMIZE]: (event, data) => {
@@ -142,7 +141,7 @@
     [SIGNAL_RESTORE]: (event, data) => {
       restore();
 
-      signal(SIGNAL_MINIMIZE, isMinimized);
+      signal(SIGNAL_MINIMIZE, minimized);
     },
     [SIGNAL_PRODUCT_ADD_TO_CART]: (event, data) => {
       dispatch(EVENT_ADD_TO_CART, data);
@@ -192,10 +191,10 @@
   {#if open}
     <div
       class="livetag__box"
-      class:livetag__box--minimized={isMinimized}
+      class:livetag__box--minimized={minimized}
       class:livetag__box--mobile={isMobile}
       style="transform: {translateStyle}"
-      use:drag={isMinimized}
+      use:drag={minimized}
       on:drag-end={onDragEnd}
     >
       {#if !ready && !loadingError}
@@ -212,7 +211,7 @@
         <Widget {src} {ready} {onLoad} {onSignal} {onError} />
       {/if}
 
-      {#if isMinimized}
+      {#if minimized}
         <div class="livetag__overlay" />
 
         <div class="livetag__btns">
