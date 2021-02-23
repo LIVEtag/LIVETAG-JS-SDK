@@ -89,11 +89,9 @@
   });
 
   afterUpdate(() => {
-    if (isDesktop) {
-      signal(SIGNAL_MINIMIZE, minimized);
-    }
+    signal(SIGNAL_MINIMIZE, minimized);
 
-    widget.set({ open, minimized: minimized, sessionId, translate });
+    widget.set({ open, minimized, sessionId, translate });
   });
 
   //
@@ -124,7 +122,7 @@
   }
 
   const signalHandlers = {
-    [SIGNAL_READY]: (event, data) => {
+    [SIGNAL_READY]: () => {
       ready = true;
 
       dispatch(EVENT_READY);
@@ -132,13 +130,13 @@
       signal(SIGNAL_MINIMIZE, minimized);
       signal(SIGNAL_IS_MOBILE, isMobile);
     },
-    [SIGNAL_MINIMIZE]: (event, data) => {
+    [SIGNAL_MINIMIZE]: () => {
       minimize();
     },
-    [SIGNAL_CLOSE]: (event, data) => {
+    [SIGNAL_CLOSE]: () => {
       close();
     },
-    [SIGNAL_RESTORE]: (event, data) => {
+    [SIGNAL_RESTORE]: () => {
       restore();
 
       signal(SIGNAL_MINIMIZE, minimized);
@@ -181,7 +179,9 @@
   }
 
   function onDragEnd({ detail: { x, y } }) {
-    if (translate === null || translate.x !== x || translate.y !== y) {
+    if (!x && !y) {
+      translate = null;
+    } else if (translate === null || translate.x !== x || translate.y !== y) {
       translate = { x, y };
     }
   }

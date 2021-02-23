@@ -8,7 +8,13 @@ import { debounce } from './debounce';
 export function drag(node, enable) {
   let _draggable;
   if (enable) {
-    _draggable = draggable(node);
+    init();
+  }
+
+  function init() {
+    setTimeout(() => {
+      _draggable = draggable(node);
+    });
   }
 
   return {
@@ -19,7 +25,7 @@ export function drag(node, enable) {
       }
 
       if (drag) {
-        _draggable = draggable(node);
+        init();
       }
     },
     destroy() {
@@ -45,9 +51,7 @@ export function draggable(node) {
   let xOffset;
   let yOffset;
 
-  ({ x: initialX, y: initialY } = constraints(x, y, node));
-
-  setTranslate(initialX, initialY, node);
+  ({ x: initialX, y: initialY } = translate(node, x, y));
 
   xOffset = initialX;
   yOffset = initialY;
@@ -66,9 +70,10 @@ export function draggable(node) {
 
   let onResizeDebounced = debounce(
     () => {
-      ({ x: initialX, y: initialY } = constraints(initialX, initialY, node));
+      ({ x: initialX, y: initialY } = translate(node, initialX, initialY));
 
-      setTranslate(initialX, initialY, node);
+      xOffset = initialX;
+      yOffset = initialY;
 
       onDragEndDebounced({ x: initialX, y: initialY });
     },
@@ -76,27 +81,29 @@ export function draggable(node) {
     false
   );
 
-  onResizeDebounced();
+  onDragEndDebounced({ x: initialX, y: initialY });
 
   node.addEventListener('mousedown', dragStart);
   node.addEventListener('touchstart', dragStart);
 
   window.addEventListener('resize', onResizeDebounced, { passive: true });
 
-  function dragEnd(e) {
-    onDragEndDebounced({ x: currentX, y: currentY });
-
-    initialX = currentX;
-    initialY = currentY;
-
-    xOffset = currentX;
-    yOffset = currentY;
-
+  function dragEnd() {
     document.removeEventListener('mousemove', drag);
     document.removeEventListener('mouseup', dragEnd);
 
     document.removeEventListener('touchmove', drag);
     document.removeEventListener('touchend', dragEnd);
+
+    if (currentX !== undefined && currentY !== undefined) {
+      onDragEndDebounced({ x: currentX, y: currentY });
+
+      initialX = currentX;
+      initialY = currentY;
+
+      xOffset = currentX;
+      yOffset = currentY;
+    }
   }
 
   function dragStart(e) {
@@ -131,9 +138,7 @@ export function draggable(node) {
       currentY = e.clientY - initialY;
     }
 
-    ({ x: currentX, y: currentY } = constraints(currentX, currentY, node));
-
-    setTranslate(currentX, currentY, node);
+    ({ x: currentX, y: currentY } = translate(node, currentX, currentY));
   }
 
   return {
@@ -148,13 +153,20 @@ export function draggable(node) {
   };
 }
 
+function translate(node, x, y) {
+  let pos = constraints(node, x, y);
+  setTranslate(node, pos.x, pos.y);
+
+  return pos;
+}
+
 /**
+ * @param {HTMLElement} node
  * @param {number} x
  * @param {number} y
- * @param {HTMLElement} node
  * @return {{x: number, y: number}}
  */
-function constraints(x, y, node) {
+function constraints(node, x, y) {
   let xPos = window.innerWidth + x - node.clientWidth;
   if (xPos < 20) {
     x = -(window.innerWidth - node.clientWidth - 20);
@@ -173,12 +185,12 @@ function constraints(x, y, node) {
 }
 
 /**
+ * @param {HTMLElement} el
  * @param {number} x
  * @param {number} y
- * @param {HTMLElement} el
  * @return {void}
  */
-function setTranslate(x, y, el) {
+function setTranslate(el, x, y) {
   el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 }
 
