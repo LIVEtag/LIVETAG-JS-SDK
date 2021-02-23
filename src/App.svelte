@@ -52,11 +52,28 @@
   let translate = null;
 
   let isMinimized, translateStyle;
-  $: isMinimized = !isMobile && minimized;
+  $: isMinimized = minimized;
   $: translateStyle =
-    minimized && isDesktop && translate && (translate.x || translate.y)
+    minimized && translate && (translate.x || translate.y)
       ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)`
       : 'initial';
+
+  const onResize = debounce(
+    () => {
+      isDesktop = isDesktopBrowser();
+      isMobile = isMobileBrowser();
+
+      signal(SIGNAL_IS_MOBILE, isMobile);
+    },
+    200,
+    false
+  );
+
+  $: if (open) {
+    window.addEventListener('resize', onResize);
+  } else {
+    window.removeEventListener('resize', onResize);
+  }
 
   beforeUpdate(() => {
     if (!open && loadingError) {
@@ -85,7 +102,7 @@
   //
   widget.getState((state) => {
     open = state.open;
-    minimized = isDesktop && state.minimized;
+    minimized = state.minimized;
     sessionId = state.sessionId;
     translate = state.translate;
   });
@@ -169,20 +186,7 @@
       translate = { x, y };
     }
   }
-
-  const onResize = debounce(
-    () => {
-      isDesktop = isDesktopBrowser();
-      isMobile = isMobileBrowser();
-
-      signal(SIGNAL_IS_MOBILE, isMobile);
-    },
-    200,
-    false
-  );
 </script>
-
-<svelte:window on:resize={onResize} />
 
 <div id="livetag">
   {#if open}
@@ -210,13 +214,9 @@
 
       {#if isMinimized}
         <div class="livetag__overlay" />
-      {/if}
 
-      {#if isMinimized || isMobile}
         <div class="livetag__btns">
-          {#if !isMobile}
-            <MaximizeBtn class="livetag__btn" on:click={restore} />
-          {/if}
+          <MaximizeBtn class="livetag__btn" on:click={restore} />
 
           <CloseBtn class="livetag__btn" on:click={close} />
         </div>
@@ -268,6 +268,10 @@
 
   .livetag__box--minimized .livetag__error {
     font-size: 1em;
+  }
+
+  .livetag__box--mobile .livetag__error {
+    padding: 0.5em;
   }
 
   .livetag__box {

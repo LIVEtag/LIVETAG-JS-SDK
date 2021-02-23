@@ -1,5 +1,10 @@
 import { debounce } from './debounce';
 
+/**
+ * @param {HTMLElement} node
+ * @param {boolean} enable
+ * @return {{update(*=): void, destroy(): void}}
+ */
 export function drag(node, enable) {
   let _draggable;
   if (enable) {
@@ -26,6 +31,10 @@ export function drag(node, enable) {
   };
 }
 
+/**
+ * @param {HTMLElement} node
+ * @return {{destroy(): void}}
+ */
 export function draggable(node) {
   const [x, y] = getTranslate(node);
 
@@ -33,8 +42,15 @@ export function draggable(node) {
   let currentY;
   let initialX;
   let initialY;
-  let xOffset = x;
-  let yOffset = y;
+  let xOffset;
+  let yOffset;
+
+  ({ x: initialX, y: initialY } = constraints(x, y, node));
+
+  setTranslate(initialX, initialY, node);
+
+  xOffset = initialX;
+  yOffset = initialY;
 
   let onDragEndDebounced = debounce(
     ({ x, y }) => {
@@ -48,14 +64,33 @@ export function draggable(node) {
     false
   );
 
+  let onResizeDebounced = debounce(
+    () => {
+      ({ x: initialX, y: initialY } = constraints(initialX, initialY, node));
+
+      setTranslate(initialX, initialY, node);
+
+      onDragEndDebounced({ x: initialX, y: initialY });
+    },
+    200,
+    false
+  );
+
+  onResizeDebounced();
+
   node.addEventListener('mousedown', dragStart);
   node.addEventListener('touchstart', dragStart);
+
+  window.addEventListener('resize', onResizeDebounced, { passive: true });
 
   function dragEnd(e) {
     onDragEndDebounced({ x: currentX, y: currentY });
 
     initialX = currentX;
     initialY = currentY;
+
+    xOffset = currentX;
+    yOffset = currentY;
 
     document.removeEventListener('mousemove', drag);
     document.removeEventListener('mouseup', dragEnd);
@@ -86,32 +121,17 @@ export function draggable(node) {
   }
 
   function drag(e) {
-    e.preventDefault();
-
     if (e.type === 'touchmove') {
-      currentX = e.touches[0].clientX - initialX;
-      currentY = e.touches[0].clientY - initialY;
+      currentX = Math.floor(e.touches[0].clientX - initialX);
+      currentY = Math.floor(e.touches[0].clientY - initialY);
     } else {
+      e.preventDefault();
+
       currentX = e.clientX - initialX;
       currentY = e.clientY - initialY;
     }
 
-    let xPos = window.innerWidth + currentX - node.clientWidth;
-    if (xPos < 20) {
-      currentX = -(window.innerWidth - node.clientWidth - 20);
-    } else if (xPos > (window.innerWidth - node.clientWidth - 10)) {
-      currentX = 0;
-    }
-
-    let yPos = window.innerHeight + currentY - node.clientHeight;
-    if (yPos < 20) {
-      currentY = -(window.innerHeight - node.clientHeight - 20);
-    } else if (yPos > (window.innerHeight - node.clientHeight - 10)) {
-      currentY = 0;
-    }
-
-    xOffset = currentX;
-    yOffset = currentY;
+    ({ x: currentX, y: currentY } = constraints(currentX, currentY, node));
 
     setTranslate(currentX, currentY, node);
   }
@@ -121,15 +141,51 @@ export function draggable(node) {
       node.removeEventListener('mousedown', dragStart);
       node.removeEventListener('touchstart', dragStart);
 
+      window.removeEventListener('resize', onResizeDebounced);
+
       node.style.transform = null;
     },
   };
 }
 
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {HTMLElement} node
+ * @return {{x: number, y: number}}
+ */
+function constraints(x, y, node) {
+  let xPos = window.innerWidth + x - node.clientWidth;
+  if (xPos < 20) {
+    x = -(window.innerWidth - node.clientWidth - 20);
+  } else if (xPos > window.innerWidth - node.clientWidth - 10) {
+    x = 0;
+  }
+
+  let yPos = window.innerHeight + y - node.clientHeight;
+  if (yPos < 20) {
+    y = -(window.innerHeight - node.clientHeight - 20);
+  } else if (yPos > window.innerHeight - node.clientHeight - 10) {
+    y = 0;
+  }
+
+  return { x, y };
+}
+
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {HTMLElement} el
+ * @return {void}
+ */
 function setTranslate(x, y, el) {
   el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 }
 
+/**
+ * @param {HTMLElement} el
+ * @return {[number, number]}
+ */
 function getTranslate(el) {
   const r = /matrix\(1, 0, 0, 1, (-?[0-9]+), (-?[0-9]+)\)/;
 
