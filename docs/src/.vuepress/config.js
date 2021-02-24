@@ -1,4 +1,4 @@
-const env = require('../../env');
+const env = require('../../../env');
 const webpack = require('webpack');
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
   /**
    * Ref：https://vuepress.vuejs.org/config/#title
    */
-  title: 'LiveTag Docs',
+  title: 'Livetag Docs',
   /**
    * Ref：https://vuepress.vuejs.org/config/#description
    */
@@ -68,7 +68,7 @@ module.exports = {
         link: '/config/',
       },
       {
-        text: 'LiveTag',
+        text: 'Livetag',
         link: 'https://www.livetag.sg/',
       },
     ],

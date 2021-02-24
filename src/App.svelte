@@ -223,7 +223,7 @@
           {#if minimized}
             <MaximizeBtn class="livetag__btn" on:click={restore} />
           {:else}
-            <span></span>
+            <span />
           {/if}
 
           <CloseBtn class="livetag__btn" on:click={close} />

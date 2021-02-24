@@ -7,8 +7,8 @@ title Interaction between the shop website and the widget
 
 actor User
 participant Shop
-participant "LiveTag JS SDK" as SDK
-participant "LiveTag Widget\n(iframe)" as Widget
+participant "Livetag JS SDK" as SDK
+participant "Livetag Widget\n(iframe)" as Widget
 participant "REST API" as Api
 
 User -> Shop : Open shop website
@@ -22,7 +22,7 @@ note over User,Shop
 == Description
 
 # The user visit the shop website
-# The shop website downloads the LiveTag JS SDK (hereinafter SDK) library
+# The shop website downloads the Livetag JS SDK (hereinafter SDK) library
 # SDK generates a UUID to identify the user on the first visit
 # The user presses the "Watch now" button
 # The SDK opens the widget and passes the user UUID and Shop URI (""shopUri"") of the store via a URL (""/{shopUri}?uid={uid}"")
