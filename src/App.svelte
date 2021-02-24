@@ -57,6 +57,9 @@
       ? `translate3d(${translate.x || 0}px, ${translate.y || 0}px, 0)`
       : 'initial';
 
+  let showButtons;
+  $: showButtons = minimized || loadingError || !ready;
+
   const onResize = debounce(
     () => {
       isDesktop = isDesktopBrowser();
@@ -213,9 +216,15 @@
 
       {#if minimized}
         <div class="livetag__overlay" />
+      {/if}
 
+      {#if showButtons}
         <div class="livetag__btns">
-          <MaximizeBtn class="livetag__btn" on:click={restore} />
+          {#if minimized}
+            <MaximizeBtn class="livetag__btn" on:click={restore} />
+          {:else}
+            <span></span>
+          {/if}
 
           <CloseBtn class="livetag__btn" on:click={close} />
         </div>
@@ -226,16 +235,16 @@
 
 <style>
   :root {
-    --livetag-loader-size: 48px;
-    --livetag-widget-width--minimized: 240px;
-    --livetag-widget-height--minimized: calc(var(--livetag-widget-width--minimized) * 1.6);
+    --livetag-loader-size: min(48px, calc(var(--livetag-widget-height--minimized) / 6));
+    --livetag-widget-width--minimized: calc(var(--livetag-widget-height--minimized) / 1.6);
+    --livetag-widget-height--minimized: max(160px, 30vh);
   }
 
   .livetag__btns {
     position: absolute;
     top: 0;
     width: 100%;
-    padding: 10px;
+    padding: calc(var(--livetag-widget-height--minimized) / 32);
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -244,14 +253,21 @@
   :global(.livetag__btn) {
     border: none;
     background-color: rgba(0, 0, 0, 0.35);
-    width: 32px;
-    height: 32px;
+    width: calc(var(--livetag-widget-height--minimized) / 10);
+    height: calc(var(--livetag-widget-height--minimized) / 10);
     border-radius: 50%;
     color: #fff;
-    font-size: 32px;
+    font-size: 0;
     line-height: 0;
     padding: 0;
     cursor: pointer;
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  :global(.livetag__btn svg) {
+    width: 50%;
+    height: 50%;
   }
 
   .livetag__error {
@@ -262,15 +278,13 @@
     color: #fff;
     text-align: center;
     font-size: 2em;
-    line-height: 1;
+    line-height: 1.1;
+    box-sizing: border-box;
+    padding: 0.5em;
   }
 
   .livetag__box--minimized .livetag__error {
-    font-size: 1em;
-  }
-
-  .livetag__box--mobile .livetag__error {
-    padding: 0.5em;
+    font-size: max(0.8em, calc(var(--livetag-widget-height--minimized) / 15));
   }
 
   .livetag__box {
