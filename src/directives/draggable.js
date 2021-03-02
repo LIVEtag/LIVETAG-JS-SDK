@@ -1,4 +1,4 @@
-import { debounce } from './debounce';
+import { debounce } from '../debounce';
 
 /**
  * @param {HTMLElement} node
@@ -17,11 +17,17 @@ export function drag(node, enable) {
     });
   }
 
+  function destroy() {
+    if (_draggable) {
+      _draggable.destroy();
+      _draggable = undefined;
+    }
+  }
+
   return {
     update(drag) {
       if (!drag && _draggable) {
-        _draggable.destroy();
-        _draggable = undefined;
+        destroy();
       }
 
       if (drag) {
@@ -29,10 +35,7 @@ export function drag(node, enable) {
       }
     },
     destroy() {
-      if (_draggable) {
-        _draggable.destroy();
-        _draggable = undefined;
-      }
+      destroy();
     },
   };
 }

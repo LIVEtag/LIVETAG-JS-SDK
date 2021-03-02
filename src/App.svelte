@@ -1,10 +1,13 @@
 <script>
   import { afterUpdate, beforeUpdate, createEventDispatcher } from 'svelte';
+  import CloseBtn from './CloseBtn.svelte';
   import { createWidgetUrl } from './create-widget-url';
   import { debounce } from './debounce';
   import { isDesktopBrowser, isMobileBrowser } from './device-type';
-  import { drag } from './draggable';
+  import { drag, touched } from './directives';
+  import { EVENT_ADD_TO_CART, EVENT_CHECKOUT, EVENT_READY, EVENT_VIEW_PRODUCT } from './events';
   import Loader from './Loader.svelte';
+  import MaximizeBtn from './MaximizeBtn.svelte';
   import {
     createSignal,
     SIGNAL_CHECKOUT,
@@ -16,11 +19,8 @@
     SIGNAL_READY,
     SIGNAL_RESTORE,
   } from './signal';
-  import { EVENT_READY, EVENT_CHECKOUT, EVENT_ADD_TO_CART, EVENT_VIEW_PRODUCT } from './events';
   import { generateUid, getUid, storeUid } from './uid';
   import Widget from './Widget.svelte';
-  import CloseBtn from './CloseBtn.svelte';
-  import MaximizeBtn from './MaximizeBtn.svelte';
   import { widget } from './widgetStore';
 
   let uid = getUid() || generateUid();
@@ -196,8 +196,9 @@
       class="livetag__box"
       class:livetag__box--minimized={minimized}
       class:livetag__box--mobile={isMobile}
-      style="transform: {translateStyle}"
+      style="transform:{translateStyle}"
       use:drag={minimized}
+      use:touched={3000}
       on:drag-end={onDragEnd}
     >
       {#if !ready && !loadingError}
@@ -237,7 +238,7 @@
   :root {
     --livetag-loader-size: min(48px, calc(var(--livetag-widget-height--minimized) / 6));
     --livetag-widget-width--minimized: calc(var(--livetag-widget-height--minimized) / 1.6);
-    --livetag-widget-height--minimized: max(160px, 30vh);
+    --livetag-widget-height--minimized: clamp(160px, 30vh, 720px);
   }
 
   .livetag__btns {
@@ -321,5 +322,17 @@
     right: 0;
     left: 0;
     cursor: move;
+  }
+
+  .livetag__box--minimized.livetag__box--mobile .livetag__btns {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+    pointer-events: none;
+  }
+
+  :global(.livetag__box--minimized.livetag__box--mobile.touched) .livetag__btns {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+    pointer-events: initial;
   }
 </style>
