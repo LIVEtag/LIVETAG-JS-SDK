@@ -4,20 +4,20 @@ Configuration for SDK initialization.
 
 ```javascript
 initLivetag({
-  projectId: '{projectId}',
+  shopUri: '{shopUri}',
 });
 
 // or
 
 Livetag.init({
-  projectId: '{projectId}',
+  shopUri: '{shopUri}',
 });
 ```
 
-## projectId
+## shopUri
 
 - Type: `string`
 - Default: empty
 - Required: true
 
-Specify project id.
+Specify Shop URI.

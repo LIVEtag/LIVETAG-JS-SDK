@@ -77,7 +77,7 @@ function initError() {
 }
 
 /**
- * @param {{ projectId: string }} params
+ * @param {{ shopUri: string }} params
  * @return {void}
  */
 export function init(params) {
@@ -93,9 +93,9 @@ export function init(params) {
     return;
   }
 
-  if (!params.projectId || typeof params.projectId !== 'string') {
+  if (!params.shopUri || typeof params.shopUri !== 'string') {
     console.error(
-      '[Livetag] Incorrect "params.projectId". "params.projectId" cannot be blank and must be of type string.'
+      '[Livetag] Incorrect "params.shopUri". "params.shopUri" cannot be blank and must be of type string.'
     );
 
     return;
@@ -105,7 +105,7 @@ export function init(params) {
     app = new App({
       target: document.body,
       props: {
-        projectId: String(params.projectId),
+        shopUri: String(params.shopUri),
         widgetUrl: process.env.APP_WIDGET_URL,
       },
     });

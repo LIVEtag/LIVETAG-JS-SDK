@@ -36,7 +36,7 @@ function initLivetag(method, params) {
 
   if (typeof method === 'function') {
     method(Livetag);
-  } else if (typeof method === 'object' && method.projectId) {
+  } else if (typeof method === 'object' && method.shopUri) {
     init(method);
   } else if (typeof method === 'string' && Livetag[method]) {
     Livetag[method](params);

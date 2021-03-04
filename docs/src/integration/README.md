@@ -13,7 +13,8 @@ Place this snippet in `head` of the document:
       return l.initLivetag;
     };
 
-    initLivetag({ projectId: '{projectId}' });
+    initLivetag({ shopUri: '{shopUri}' });
+    // Register Livetag ready callback function
     initLivetag(function (livetag) {
       // Livetag SDK is loaded
       console.log('[Livetag] Loaded.');
@@ -37,13 +38,13 @@ Preferred better way to load and initialize Livetag SDK.
       // Use Livetag methods
       console.log('[Livetag]', Livetag);
 
-      Livetag.init({ projectId: '{projectId}' });
+      Livetag.init({ shopUri: '{shopUri}' });
     });
   })();
 </script>
 ```
 
-Replace `{projectId}` with your project id.
+Replace `{shopUri}` with your Shop URI.
 
 [See](../config/README.md) more details about configuration.
 

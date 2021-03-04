@@ -34,7 +34,7 @@
   //
   // Shop props
   //
-  export let projectId;
+  export let shopUri;
   export let widgetUrl;
   export let sessionId = null;
 
@@ -87,7 +87,7 @@
     }
 
     if (open && !src) {
-      src = createWidgetUrl(widgetUrl, projectId, { uid, sessionId, isDesktop, shopUrl: window.location.href });
+      src = createWidgetUrl(widgetUrl, shopUri, { uid, sessionId, isDesktop, shopUrl: window.location.href });
     }
   });
 
