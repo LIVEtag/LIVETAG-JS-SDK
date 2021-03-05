@@ -30,7 +30,6 @@ module.exports = {
    * Ref：https://vuepress.vuejs.org/config/#description
    */
   description: '',
-
   /**
    * Extra tags to be injected to the page HTML `<head>`
    *
@@ -88,6 +87,11 @@ module.exports = {
         path: '/config/',
         collapsable: false,
       },
+      // {
+      //   title: 'Admin Panel',
+      //   path: '/admin-panel/',
+      //   collapsable: false,
+      // },
     ],
   },
 
