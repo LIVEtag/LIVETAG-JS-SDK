@@ -95,6 +95,7 @@ Livetag.maximize();
 
 ## Events
 
+### Product definition
 ```typescript
 interface Product {
   externalId: string;
@@ -130,6 +131,8 @@ let unsubscribe = Livetag.onAddToCart((product: Product) => {
 // If necessary, call later to unsubscribe from events
 unsubscribe();
 ```
+
+See [Product](#product-definition) definition.
 
 ### onViewProduct
 
