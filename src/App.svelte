@@ -5,6 +5,7 @@
   import { debounce } from './debounce';
   import { isDesktopBrowser, isMobileBrowser } from './device-type';
   import { drag, touched } from './directives';
+  import { isTouchDevice } from './is-touch-device';
   import { EVENT_ADD_TO_CART, EVENT_CHECKOUT, EVENT_READY, EVENT_VIEW_PRODUCT } from './events';
   import Loader from './Loader.svelte';
   import MaximizeBtn from './MaximizeBtn.svelte';
@@ -40,6 +41,7 @@
 
   let isDesktop = isDesktopBrowser();
   let isMobile = isMobileBrowser();
+  let hasTouch = isTouchDevice();
 
   //
   // Widget state props
@@ -64,6 +66,7 @@
     () => {
       isDesktop = isDesktopBrowser();
       isMobile = isMobileBrowser();
+      hasTouch = isTouchDevice();
 
       signal(SIGNAL_IS_MOBILE, isMobile);
     },
@@ -196,6 +199,7 @@
       class="livetag__box"
       class:livetag__box--minimized={minimized}
       class:livetag__box--mobile={isMobile}
+      class:livetag__box--touch={hasTouch}
       style="transform:{translateStyle}"
       use:drag={minimized}
       use:touched={3000}
@@ -324,13 +328,13 @@
     cursor: move;
   }
 
-  .livetag__box--minimized.livetag__box--mobile .livetag__btns {
+  .livetag__box--minimized.livetag__box--touch .livetag__btns {
     opacity: 0;
     transition: opacity 0.2s ease-in;
     pointer-events: none;
   }
 
-  :global(.livetag__box--minimized.livetag__box--mobile.touched) .livetag__btns {
+  :global(.livetag__box--minimized.livetag__box--touch.touched) .livetag__btns {
     opacity: 1;
     transition: opacity 0.2s ease-in;
     pointer-events: initial;

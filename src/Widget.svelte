@@ -68,7 +68,7 @@
   class:livetag__iframe--ready={ready}
   {src}
   on:load={handleLoad}
-  allow="fullscreen; autoplay;"
+  allow="fullscreen"
   allowtransparency="true"
 />
 
