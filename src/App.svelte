@@ -237,7 +237,7 @@
 <style>
   :root {
     --livetag-loader-size: min(48px, calc(var(--livetag-widget-height--minimized) / 6));
-    --livetag-widget-width--minimized: calc(var(--livetag-widget-height--minimized) / 1.6);
+    --livetag-widget-width--minimized: calc(var(--livetag-widget-height--minimized) / 1.777);
     --livetag-widget-height--minimized: clamp(160px, 30vh, 720px);
   }
 
