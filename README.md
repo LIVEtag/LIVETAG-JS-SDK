@@ -24,6 +24,7 @@ npm ci
 * `npm run dist` - builds the library for production to `dist`, generating `livetag.min.js` file.
 * `npm run build` - builds the library for development to `dist`, generating `livetag.js` and `livetag.js.map` files.
 * `npm run dev` - builds the library, then keeps rebuilding it whenever the source files change.
+* `npm run snippet` - Generates a Livetag SDK script snippet `./dist/snippet.txt` to be inserted into the administration panel.
 
 ## Interaction between the shop website and the widget
 

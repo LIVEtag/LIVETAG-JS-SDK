@@ -96,5 +96,5 @@ export default [
       format: 'esm',
       sourcemap: development,
     },
-  },
+  }
 ];

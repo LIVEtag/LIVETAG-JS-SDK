@@ -1,0 +1,22 @@
+<script>
+  (function (l, i, v, e, t, a, g) {
+    l.initLivetag = l.initLivetag || function () {
+      (l.initLivetag.q = l.initLivetag.q || []).push(arguments);
+
+      return l.initLivetag;
+    };
+
+    initLivetag({ shopUri: '{shopUri}' });
+    // Register Livetag ready callback function
+    initLivetag(function (livetag) {
+      // Livetag SDK is loaded
+      console.log('[Livetag] Loaded.');
+    });
+
+    a = i.createElement(v);
+    a.async = !0;
+    a.src = '{APP_SDK_URL}/lib/livetag.js';
+    g = i.getElementsByTagName('script')[0];
+    g.parentNode.insertBefore(a, g);
+  })(window, document, 'script');
+</script>
