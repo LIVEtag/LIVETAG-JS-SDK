@@ -1,5 +1,4 @@
-FROM gitlab.gbksoft.net:5005/int/images/nginx-alpine-node:12
-
+FROM hub.ci.gbksoft.net:5000/pub/nginx-alpine-node:14
 COPY . /var/www/html/
 RUN rm -rf /var/www/html/.git
 RUN mkdir -p /var/www/html/data/lib
