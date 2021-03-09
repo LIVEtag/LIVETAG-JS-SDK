@@ -4,7 +4,7 @@
   "license": "proprietary",
   "description": "Livetag JS SDK",
   "scripts": {
-    "build": "cross-env NODE_ENV=development rollup -c && npm run snippet",
+    "build": "cross-env NODE_ENV=production rollup -c && npm run snippet",
     "dist": "cross-env NODE_ENV=production rollup -c && npm run snippet",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "snippet": "cross-env NODE_ENV=production node snippet-generate.js",
