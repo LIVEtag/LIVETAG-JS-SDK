@@ -99,3 +99,46 @@ deploy:live:
     - develop
     - tags
   <<: *deploy_script_definition
+
+prod:build:
+  stage: deploy
+  when: manual
+  image: ${CI_REGISTRY}/int/images/docker:latest
+  variables:
+    AWS_ACCESS_KEY_ID: ${AWS_ECS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${AWS_ECS_SECRET_ACCESS_KEY}
+  script:
+    - echo "Build the image ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/sdk:${CI_COMMIT_SHORT_SHA}"
+    - . ./.gitlab-ci/build_image.sh
+  only:
+    - tags
+  tags:
+    - docker
+
+prod:deploy:
+  stage: deploy
+  when: manual
+  image: ${CI_REGISTRY}/int/images/ecs-deploy:latest
+  variables:
+    AWS_ACCESS_KEY_ID: ${AWS_ECS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${AWS_ECS_SECRET_ACCESS_KEY}
+  script:
+    - |
+       echo "Check the image ${CI_COMMIT_SHORT_SHA}"
+       aws ecr describe-images \
+           --repository-name sdk \
+           --image-id="[{\"imageTag\":\"${CI_COMMIT_SHORT_SHA}\"}]"
+       echo "Deploy sdk"
+       ecs deploy livetag sdk \
+           --tag ${CI_COMMIT_SHORT_SHA} \
+           --diff \
+           --timeout 900 \
+           --deregister
+       echo "Deploy complete"
+  only:
+    - tags
+  tags:
+    - docker
+  environment:
+    name: Production
+    url: ${URL_PROD}
