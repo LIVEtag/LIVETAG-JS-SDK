@@ -10,8 +10,6 @@ echo ">> Create .env file"
 cat "${ENV_PROD}" > ./.env
 test -s ./.env || exit 2
 
-export APP_SDK_URL=https://sdk.livetag.sg
-
 echo ">> Create version.txt"
 echo "${CI_COMMIT_SHORT_SHA} ${CI_COMMIT_TAG}" > ./version.txt
 
