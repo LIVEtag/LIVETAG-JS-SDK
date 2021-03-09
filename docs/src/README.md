@@ -4,7 +4,9 @@ Welcome to LiveTag Video Streaming Documentation.
 
 ## What is LiveTag?
 
-![Livetag Intro](intro.png)
+<div style="text-align: center;margin: 2em 0">
+    <img src="./intro.png">
+</div>
 
 With Live stream shopping estimated to account for over 20% of China’s online shopping in, brands need to adapt and turn their live stream video into shoppable interactive experiences.
 * Check out of our add-to-cart function which can boost the conversion rates on live show by 30%.  
