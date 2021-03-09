@@ -2,7 +2,6 @@ FROM hub.ci.gbksoft.net:5000/pub/nginx-alpine-node:14
 COPY . /var/www/html/
 RUN rm -rf /var/www/html/.git
 RUN mkdir -p /var/www/html/data/lib
-RUN export APP_SDK_URL="https://sdk.livetag.sg"
 RUN cd /var/www/html && npm ci && npm run dist && mv /var/www/html/dist/* /var/www/html/data/lib/
 RUN cd /var/www/html/docs && npm ci && npm run build && mv /var/www/html/docs/src/.vuepress/dist/* /var/www/html/data
 RUN chown -R nginx:nginx /data
