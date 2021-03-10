@@ -9,7 +9,9 @@
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "snippet": "cross-env NODE_ENV=production node snippet-generate.js",
     "prettier": "prettier --write \"./src/**/*.{js,json,svelte}\"",
-    "prettier:check": "prettier --list-different \"./src/**/*.{js,json,svelte}\""
+    "prettier:check": "prettier --list-different \"./src/**/*.{js,json,svelte}\"",
+    "bump-version": "node utils/bump-version.js",
+    "write-version": "node utils/write-version.js src/environments/version.ts"
   },
   "dependencies": {},
   "devDependencies": {
