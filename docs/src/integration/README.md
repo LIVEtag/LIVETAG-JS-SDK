@@ -46,6 +46,21 @@ Preferred better way to load and initialize Livetag SDK.
 
 Replace `{shopUri}` with your Shop URI.
 
+Next, you need to add a button to launch the widget. There are two options:
+1. Add a button to the required place on the site with the `data-livetag` attribute. For example:
+   ```html
+   <button type="button" data-livetag>Watch Now</button>
+   ```
+   Clicking on such a button will automatically start the widget. This is the easiest way.
+2. After SDK initialized, programmatically add a click event listener on any element on which the widget will be started. For example:
+    ```js
+    initLivetag(function (livetag) {
+      document.querySelector('#some-button').addEventListener('click', () => {
+        livetag.open();
+      });
+    });
+    ```
+
 [See](../config/README.md) more details about configuration.
 
 ## Methods
