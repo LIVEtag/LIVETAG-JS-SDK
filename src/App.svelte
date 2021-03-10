@@ -305,7 +305,7 @@
   }
 
   .livetag__box--minimized {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     margin: 10px;
