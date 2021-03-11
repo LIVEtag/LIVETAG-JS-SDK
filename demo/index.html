@@ -45,44 +45,20 @@
 </div>
 
 <script>
-  (function (l, i, v, e, t, a, g) {
-    l.initLivetag = l.initLivetag || function () {
-      (l.initLivetag.q = l.initLivetag.q || []).push(arguments);
+  import('../dist/livetag.esm.js').then((Livetag) => {
+    Livetag.init({ shopUri: 'shop1' });
 
-      return l.initLivetag;
-    };
-
-    //
-    // ES Modules
-    // Preferred better way to load and initialize Livetag SDK
-    //
-    // import('../dist/livetag.esm.js').then((Livetag) => {
-    // Use Livetag methods
-    // console.log('[Livetag]', Livetag);
-
-    // Livetag.init({ shopUri: 'shop1' });
-    // });
-
-    initLivetag({ shopUri: 'shop1' });
-    initLivetag(function (livetag) {
-      console.log('[Livetag]', livetag);
+    Livetag.onReady(function () {
+      console.log('Widget ready');
     });
 
-    a = i.createElement(v);
-    a.async = !0;
-    a.src = '../dist/livetag.js';
-    g = i.getElementsByTagName('script')[0];
-    g.parentNode.insertBefore(a, g);
-  })(window, document, 'script');
-</script>
-
-<script>
-  initLivetag(function (livetag) {
-    console.log('Register handler');
+    Livetag.onAddToCart(function (product) {
+      console.log('Product added to cart', product);
+    });
 
     document.querySelector('#watch-session').addEventListener('click', () => {
-      var sessionId = document.querySelector('[name="sessionId"]').value;
-      livetag.open(sessionId);
+      let sessionId = document.querySelector('[name="sessionId"]').value;
+      Livetag.open(sessionId);
     });
   });
 </script>

@@ -78,8 +78,13 @@ module.exports = {
         collapsable: false,
       },
       {
-        title: 'Integration',
-        path: '/integration/',
+        title: 'Widget Setup',
+        path: '/setup/',
+        collapsable: false,
+      },
+      {
+        title: 'Widget SDK',
+        path: '/sdk/',
         collapsable: false,
       },
       {

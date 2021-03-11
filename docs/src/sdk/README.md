@@ -1,67 +1,25 @@
-# Integration
+# Widget SDK
 
-## Initialization
+Detailed description of the widget SDK and available methods and events.
 
-Place this snippet in `head` of the document:
+## Initialize with ES Modules
 
-```html
-<script>
-  (function (l, i, v, e, t, a, g) {
-    l.initLivetag = l.initLivetag || function () {
-      (l.initLivetag.q = l.initLivetag.q || []).push(arguments);
-
-      return l.initLivetag;
-    };
-
-    initLivetag({ shopUri: '{shopUri}' });
-    // Register Livetag ready callback function
-    initLivetag(function (livetag) {
-      // Livetag SDK is loaded
-      console.log('[Livetag] Loaded.');
-    });
-
-    a = i.createElement(v);
-    a.async = !0;
-    a.src = '{APP_SDK_URL}/lib/livetag.js';
-    g = i.getElementsByTagName('script')[0];
-    g.parentNode.insertBefore(a, g);
-  })(window, document, 'script');
-</script>
-```
-
-ES Modules.
-Preferred better way to load and initialize Livetag SDK.
+An alternative way to initialize the widget with [ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#dynamic_module_loading).
 ```html
 <script>
   (function () {
     import('{APP_SDK_URL}/lib/livetag.esm.js').then((Livetag) => {
-      // Use Livetag methods
-      console.log('[Livetag]', Livetag);
+      Livetag.init({ shopUri: 'REPLACE_WITH_LIVESTREAM_URI' });
 
-      Livetag.init({ shopUri: '{shopUri}' });
+      Livetag.onAddToCart(function (product) {
+        console.log('User added a product to cart in the widget', product);
+
+        // Here you need to implement logic for adding an item to the site shopping cart
+      });
     });
   })();
 </script>
 ```
-
-Replace `{shopUri}` with your Shop URI.
-
-Next, you need to add a button to launch the widget. There are two options:
-1. Add a button to the required place on the site with the `data-livetag` attribute. For example:
-   ```html
-   <button type="button" data-livetag>Watch Now</button>
-   ```
-   Clicking on such a button will automatically start the widget. This is the easiest way.
-2. After SDK initialized, programmatically add a click event listener on any element on which the widget will be started. For example:
-    ```js
-    initLivetag(function (livetag) {
-      document.querySelector('#some-button').addEventListener('click', () => {
-        livetag.open();
-      });
-    });
-    ```
-
-[See](../config/README.md) more details about configuration.
 
 ## Methods
 

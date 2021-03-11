@@ -7,10 +7,15 @@
     };
 
     initLivetag({ shopUri: '{shopUri}' });
-    // Register Livetag ready callback function
+
+    // Register Livetag ready callback
     initLivetag(function (livetag) {
-      // Livetag SDK is loaded
-      console.log('[Livetag] Loaded.');
+      // Register addToCart event handler
+      livetag.onAddToCart(function (product) {
+        console.log('User added a product to cart in the widget', product);
+
+        // Here you need to implement logic for adding an item to the site shopping cart
+      });
     });
 
     a = i.createElement(v);
