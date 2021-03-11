@@ -1,4 +1,4 @@
-# Widget setup
+# Widget Setup
 
 ## 1. Add script
 
@@ -17,12 +17,16 @@ Place widget initialization snippet in `head` of the document and replace `REPLA
     
     // Register Livetag ready callback
     initLivetag(function (livetag) {
+
       // Register addToCart event handler
       livetag.onAddToCart(function (product) {
         console.log('User added a product to cart in the widget', product);
 
-        // Here you need to implement logic for adding an item to the site shopping cart
+        //
+        // Here you need to implement logic for adding an item to the shopping cart on your website
+        //
       });
+
     });
 
     a = i.createElement(v);
@@ -54,7 +58,7 @@ Next, you need to add a button to launch the widget. There are two options:
 
 #### Shopping cart
 
-In order to get products to the shopping cart of your site you need to implement handling of event [addToCart](../sdk/README.md#onaddtocart) from the widget.
+In order to get products to the shopping cart of your site you need to implement handling of event [addToCart](../sdk/events.md#onaddtocart) from the widget.
 
 #### Advanced steps
-Check out all the [methods](../sdk/README.md#methods) and [events](../sdk/README.md#events) provided by the Livetag SDK.
+Check out all the [methods](../sdk/methods.md) and [events](../sdk/events.md) provided by the Livetag SDK.

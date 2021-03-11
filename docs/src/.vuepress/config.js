@@ -84,8 +84,13 @@ module.exports = {
       },
       {
         title: 'Widget SDK',
-        path: '/sdk/',
         collapsable: false,
+        sidebarDepth: 1,
+        children: [
+          '/sdk/methods.md',
+          '/sdk/events.md',
+          '/sdk/es-modules.md',
+        ],
       },
       {
         title: 'Config',
