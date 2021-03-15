@@ -209,6 +209,18 @@
         <Loader />
       {/if}
 
+      {#if showButtons}
+        <div class="livetag__btns">
+          {#if minimized}
+            <MaximizeBtn class="livetag__btn" on:click={restore} />
+          {:else}
+            <span />
+          {/if}
+
+          <CloseBtn class="livetag__btn" on:click={close} />
+        </div>
+      {/if}
+
       {#if loadingError}
         <div class="livetag__error" on:click={close}>
           Live session cannot be loaded.
@@ -221,18 +233,6 @@
 
       {#if minimized}
         <div class="livetag__overlay" />
-      {/if}
-
-      {#if showButtons}
-        <div class="livetag__btns">
-          {#if minimized}
-            <MaximizeBtn class="livetag__btn" on:click={restore} />
-          {:else}
-            <span />
-          {/if}
-
-          <CloseBtn class="livetag__btn" on:click={close} />
-        </div>
       {/if}
     </div>
   {/if}
@@ -253,6 +253,7 @@
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    z-index: 11;
   }
 
   :global(.livetag__btn) {

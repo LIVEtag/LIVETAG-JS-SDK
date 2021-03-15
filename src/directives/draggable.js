@@ -115,9 +115,9 @@ export function draggable(node) {
       return;
     }
 
-    e.preventDefault();
-
     if (e.type === 'touchstart') {
+      e.preventDefault();
+
       initialX = e.touches[0].clientX - xOffset;
       initialY = e.touches[0].clientY - yOffset;
     } else {
