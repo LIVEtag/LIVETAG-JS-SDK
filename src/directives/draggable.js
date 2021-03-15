@@ -47,6 +47,8 @@ export function drag(node, enable) {
 export function draggable(node) {
   const [x, y] = getTranslate(node);
 
+  let overscrollBehaviorY = document.body.style.overscrollBehaviorY;
+
   let currentX;
   let currentY;
   let initialX;
@@ -98,6 +100,8 @@ export function draggable(node) {
     document.removeEventListener('touchmove', drag);
     document.removeEventListener('touchend', dragEnd);
 
+    document.body.style.overscrollBehaviorY = overscrollBehaviorY;
+
     if (currentX !== undefined && currentY !== undefined) {
       onDragEndDebounced({ x: currentX, y: currentY });
 
@@ -117,6 +121,9 @@ export function draggable(node) {
 
     if (e.type === 'touchstart') {
       e.preventDefault();
+
+      overscrollBehaviorY = document.body.style.overscrollBehaviorY;
+      document.body.style.overscrollBehaviorY = 'contain';
 
       initialX = e.touches[0].clientX - xOffset;
       initialY = e.touches[0].clientY - yOffset;
@@ -154,6 +161,8 @@ export function draggable(node) {
       window.removeEventListener('resize', onResizeDebounced);
 
       node.style.transform = null;
+
+      document.body.style.overscrollBehaviorY = overscrollBehaviorY;
     },
   };
 }
