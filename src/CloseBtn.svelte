@@ -1,4 +1,21 @@
-<button aria-label="Close" title="Close" class={$$props.class} on:click>
+<script>
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  function click() {
+    dispatch('click');
+  }
+</script>
+
+<button
+  type="button"
+  aria-label="Close"
+  title="Close"
+  class={$$props.class}
+  on:click|preventDefault={click}
+  on:touchstart|preventDefault={click}
+>
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       fill-rule="evenodd"
