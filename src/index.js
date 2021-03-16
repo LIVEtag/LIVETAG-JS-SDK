@@ -46,13 +46,19 @@ function initLivetag(method, params) {
 if ('initLivetag' in window && typeof window.initLivetag === 'function' && initLivetag !== window.initLivetag) {
   const queue = window.initLivetag && window.initLivetag.q ? window.initLivetag.q : [];
 
-  for (const item of queue) {
-    try {
-      initLivetag(item[0], item[1]);
-    } catch (e) {
-      console.log(e);
+  function onLoad() {
+    window.removeEventListener('load', onLoad);
+
+    for (const item of queue) {
+      try {
+        initLivetag(item[0], item[1]);
+      } catch (e) {
+        console.log(e);
+      }
     }
+
+    window.initLivetag = initLivetag;
   }
 
-  window.initLivetag = initLivetag;
+  window.addEventListener('load', onLoad);
 }
