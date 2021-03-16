@@ -20,6 +20,7 @@
     position: absolute;
     top: var(--position);
     left: var(--position);
+    z-index: 11;
   }
 
   .livetag__loader svg {

@@ -254,21 +254,31 @@
     display: flex;
     justify-content: space-between;
     z-index: 11;
+    /*CRUTCH for mobile Safari. When moving a minimized widget sometimes
+       the buttons are hidden for some unknown reason, adding animation solves the problem*/
+    animation: livetag__btns 1s linear infinite;
+  }
+
+  @keyframes livetag__btns {
+    to {
+      transform: translate(0, 0);
+    }
   }
 
   :global(.livetag__btn) {
+    --size: calc(var(--livetag-widget-height--minimized) / 10);
     border: none;
     background-color: rgba(0, 0, 0, 0.35);
-    width: calc(var(--livetag-widget-height--minimized) / 10);
-    height: calc(var(--livetag-widget-height--minimized) / 10);
+    width: var(--size);
+    height: var(--size);
     border-radius: 50%;
     color: #fff;
     font-size: 0;
     line-height: 0;
     padding: 0;
     cursor: pointer;
-    min-width: 24px;
-    min-height: 24px;
+    min-width: 32px;
+    min-height: 32px;
   }
 
   :global(.livetag__btn svg) {
@@ -327,6 +337,7 @@
     right: 0;
     left: 0;
     cursor: move;
+    z-index: 3;
   }
 
   .livetag__box--minimized.livetag__box--touch .livetag__btns {
