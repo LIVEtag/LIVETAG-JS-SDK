@@ -68,7 +68,6 @@
   class:livetag__iframe--ready={ready}
   {src}
   on:load={handleLoad}
-  allow="fullscreen"
   allowtransparency="true"
 />
 
@@ -86,15 +85,15 @@
     right: initial !important;
     bottom: initial !important;
     box-sizing: border-box !important;
-    visibility: hidden;
-    transition: opacity 0.2s ease-out;
-    pointer-events: none;
+    transition: opacity 0.2s ease-out !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
   }
 
   .livetag__iframe--ready {
     opacity: 1 !important;
-    visibility: visible;
-    transition: opacity 0.2s ease-in;
-    pointer-events: initial;
+    transition: opacity 0.2s ease-in !important;
+    pointer-events: initial !important;
   }
 </style>
