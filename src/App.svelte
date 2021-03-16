@@ -193,7 +193,7 @@
   }
 </script>
 
-<div id="livetag">
+<div>
   {#if open}
     <div
       class="livetag__box"

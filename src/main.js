@@ -36,7 +36,7 @@ function removeListeners() {
   document.removeEventListener('click', documentClickHandler);
 }
 
-const listen = fn => ({ detail }) => fn(detail);
+const listen = (fn) => ({ detail }) => fn(detail);
 
 export const open = maybeApp((sessionId, params = {}) => {
   app.$set({
@@ -94,16 +94,24 @@ export function init(params) {
   }
 
   if (!params.shopUri || typeof params.shopUri !== 'string') {
-    console.error(
-      '[Livetag] Incorrect "params.shopUri". "params.shopUri" cannot be blank and must be of type string.'
-    );
+    console.error('[Livetag] Incorrect "params.shopUri". "params.shopUri" cannot be blank and must be of type string.');
 
     return;
   }
 
   try {
+    const target =
+      document.getElementById('livetag') ||
+      (() => {
+        const div = document.createElement('div');
+        div.setAttribute('id', 'livetag');
+        document.body.appendChild(div);
+
+        return div;
+      })();
+
     app = new App({
-      target: document.body,
+      target,
       props: {
         shopUri: String(params.shopUri),
         widgetUrl: process.env.APP_WIDGET_URL,
