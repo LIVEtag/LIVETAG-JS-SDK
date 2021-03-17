@@ -1,6 +1,6 @@
 {
   "name": "livetag-js-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "proprietary",
   "description": "Livetag JS SDK",
   "scripts": {
