@@ -105,7 +105,7 @@
   //
   widget.getState((state) => {
     open = state.open;
-    minimized = state.minimized;
+    minimized = state.minimized || state.open;
     sessionId = state.sessionId;
     translate = state.translate;
   });
@@ -277,6 +277,11 @@
     line-height: 0;
     padding: 0;
     cursor: pointer;
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  :global(.livetag__box--touch .livetag__btn) {
     min-width: 32px;
     min-height: 32px;
   }
