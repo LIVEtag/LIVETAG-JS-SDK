@@ -4,7 +4,7 @@
 
   export let src = '';
   export let ready = false;
-  export let timeout = 10000;
+  export let timeout = 30000;
   export let onLoad = (port) => undefined;
   export let onSignal = (event) => undefined;
   export let onError = () => undefined;
