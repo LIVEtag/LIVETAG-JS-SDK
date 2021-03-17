@@ -50,7 +50,7 @@ function buildDate() {
 
 const config = {
   plugins: [
-    replace({ ...envVars }),
+    replace({ values: envVars, preventAssignment: true }),
     svelte({
       compilerOptions: {
         // enable run-time checks when not in production
@@ -96,5 +96,5 @@ export default [
       format: 'esm',
       sourcemap: development,
     },
-  }
+  },
 ];

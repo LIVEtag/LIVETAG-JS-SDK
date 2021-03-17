@@ -31,7 +31,8 @@ export const widget = {
   set(value) {
     widgetStore.set({
       ...value,
-      open: value.minimized ? value.open : false,
+      open: value.open,
+      minimized: value.minimized || value.open,
       translate: value.minimized ? value.translate : null,
     });
   },
