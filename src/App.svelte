@@ -9,6 +9,7 @@
   import { EVENT_ADD_TO_CART, EVENT_CHECKOUT, EVENT_READY, EVENT_VIEW_PRODUCT } from './events';
   import Loader from './Loader.svelte';
   import MaximizeBtn from './MaximizeBtn.svelte';
+  import MetaViewport from './MetaViewport.svelte';
   import {
     createSignal,
     SIGNAL_CHECKOUT,
@@ -194,6 +195,10 @@
 </script>
 
 <div>
+  {#if open && !minimized && isMobile}
+    <MetaViewport content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
+  {/if}
+
   {#if open}
     <div
       class="livetag__box"
