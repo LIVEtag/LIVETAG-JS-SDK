@@ -10,6 +10,7 @@
   import Loader from './Loader.svelte';
   import MaximizeBtn from './MaximizeBtn.svelte';
   import MetaViewport from './MetaViewport.svelte';
+  import DocumentClass from './DocumentClass.svelte';
   import {
     createSignal,
     SIGNAL_CHECKOUT,
@@ -199,6 +200,10 @@
     <MetaViewport content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
   {/if}
 
+  {#if open && !minimized}
+    <DocumentClass className="livetag--fullscreen" />
+  {/if}
+
   {#if open}
     <div
       class="livetag__box"
@@ -248,6 +253,11 @@
     --livetag-loader-size: min(48px, calc(var(--livetag-widget-height--minimized) / 6));
     --livetag-widget-width--minimized: calc(var(--livetag-widget-height--minimized) / 1.777);
     --livetag-widget-height--minimized: clamp(160px, 30vh, 720px);
+  }
+
+  :global(.livetag--fullscreen) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
   }
 
   .livetag__btns {
