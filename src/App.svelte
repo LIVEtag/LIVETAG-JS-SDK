@@ -1,16 +1,15 @@
 <script>
   import { afterUpdate, beforeUpdate, createEventDispatcher } from 'svelte';
   import CloseBtn from './CloseBtn.svelte';
-  import { createWidgetUrl } from './create-widget-url';
   import { debounce } from './debounce';
-  import { isDesktopBrowser, isMobileBrowser } from './device-type';
+  import { isMobileBrowser } from './device-type';
   import { drag, touched } from './directives';
-  import { isTouchDevice } from './is-touch-device';
+  import DocumentClass from './DocumentClass.svelte';
   import { EVENT_ADD_TO_CART, EVENT_CHECKOUT, EVENT_READY, EVENT_VIEW_PRODUCT } from './events';
+  import { isTouchDevice } from './is-touch-device';
   import Loader from './Loader.svelte';
   import MaximizeBtn from './MaximizeBtn.svelte';
   import MetaViewport from './MetaViewport.svelte';
-  import DocumentClass from './DocumentClass.svelte';
   import {
     createSignal,
     SIGNAL_CHECKOUT,
@@ -25,6 +24,8 @@
   import { generateUid, getUid, storeUid } from './uid';
   import Widget from './Widget.svelte';
   import { widget } from './widgetStore';
+
+  let shopUrl = window.location.href;
 
   let uid = getUid() || generateUid();
   storeUid(uid);
@@ -41,7 +42,6 @@
   export let widgetUrl;
   export let sessionId = null;
 
-  let isDesktop = isDesktopBrowser();
   let isMobile = isMobileBrowser();
   let hasTouch = isTouchDevice();
 
@@ -51,7 +51,6 @@
   export let open = false;
   export let minimized = false;
 
-  let src;
   let ready = false;
   let translate = null;
 
@@ -66,7 +65,6 @@
 
   const onResize = debounce(
     () => {
-      isDesktop = isDesktopBrowser();
       isMobile = isMobileBrowser();
       hasTouch = isTouchDevice();
 
@@ -86,15 +84,16 @@
     if (!open && loadingError) {
       loadingError = false;
     }
-
-    if (!open) {
-      src = undefined;
-    }
-
-    if (open && !src) {
-      src = createWidgetUrl(widgetUrl, shopUri, { uid, sessionId, isDesktop, shopUrl: window.location.href });
-    }
   });
+
+  let widgetParams;
+  $: widgetParams = {
+    widgetUrl,
+    shopUri,
+    shopUrl,
+    uid,
+    sessionId,
+  };
 
   afterUpdate(() => {
     signal(SIGNAL_MINIMIZE, minimized);
@@ -120,6 +119,10 @@
   }
 
   function minimize() {
+    if (minimized) {
+      return;
+    }
+
     minimized = true;
     translate = null;
   }
@@ -238,7 +241,7 @@
           Please, try again.
         </div>
       {:else}
-        <Widget {src} {ready} {onLoad} {onSignal} {onError} />
+        <Widget params={widgetParams} {ready} {onLoad} {onSignal} {onError} />
       {/if}
 
       {#if minimized}

@@ -42,7 +42,7 @@ export const open = maybeApp((sessionId, params = {}) => {
   app.$set({
     open: true,
     sessionId,
-    minimized: params ? Boolean(params.minimized) : false,
+    ...(params && 'minimized' in params ? { minimized: Boolean(params.minimized) } : {}),
   });
 });
 
@@ -51,11 +51,11 @@ export const close = maybeApp(() => {
 });
 
 export const minimize = maybeApp(() => {
-  app.$set({ minimize: true });
+  app.$set({ minimized: true });
 });
 
 export const maximize = maybeApp(() => {
-  app.$set({ minimize: false });
+  app.$set({ minimized: false });
 });
 
 export let onReady = maybeApp((listener) => app.$on(EVENT_READY, listen(listener)));
