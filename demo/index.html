@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>Livetag Demo Shop</title>
+    <title>Livetag Demo Shop</title>
 
-  <base href="/"/>
+    <base href="/" />
 
-  <style>
-    html {
-      font-size: 1em;
-      font-family: sans-serif;
-    }
+    <style>
+      html {
+        font-size: 1em;
+        font-family: sans-serif;
+      }
 
-    body {
-      padding: 0;
-      margin: 0;
-    }
+      body {
+        padding: 0;
+        margin: 0;
+      }
 
-    h1 {
-      margin: 0;
-    }
+      h1 {
+        margin: 0;
+      }
 
-    .grid {
-      grid-template-columns: 1fr 1fr;
-      display: grid;
-      grid-gap: 1em;
-    }
-  </style>
+      .grid {
+        grid-template-columns: 1fr 1fr;
+        display: grid;
+        grid-gap: 1em;
+      }
+    </style>
 
-  <script>
-    (function (l, i, v, e, t, a, g) {
-      l.initLivetag = l.initLivetag || function () {
-        (l.initLivetag.q = l.initLivetag.q || []).push(arguments);
+    <script>
+      (function (l, i, v, e, t, a, g) {
+        l.initLivetag =
+          l.initLivetag ||
+          function () {
+            (l.initLivetag.q = l.initLivetag.q || []).push(arguments);
 
-        return l.initLivetag;
-      };
+            return l.initLivetag;
+          };
 
-      initLivetag({ shopUri: 'shop1' });
+        initLivetag({ shopUri: 'shop1' });
 
-      // Register Livetag ready callback function
-      initLivetag(function (livetag) {
-        // Livetag SDK is loaded
-        console.log('[Livetag] Loaded.');
+        // Register Livetag ready callback function
+        initLivetag(function (livetag) {
+          // Livetag SDK is loaded
+          console.log('[Livetag] Loaded.');
 
-        Livetag.onReady(function () {
-          console.log('Widget ready');
+          Livetag.onReady(function () {
+            console.log('Widget ready');
+          });
+
+          Livetag.onAddToCart(function (product) {
+            console.log('Product added to cart', product);
+          });
         });
 
-        Livetag.onAddToCart(function (product) {
-          console.log('Product added to cart', product);
-        });
-      });
+        a = i.createElement(v);
+        a.async = !0;
+        a.src = '../dist/livetag.js';
+        g = i.getElementsByTagName('script')[0];
+        g.parentNode.insertBefore(a, g);
+      })(window, document, 'script');
+    </script>
+  </head>
 
-      a = i.createElement(v);
-      a.async = !0;
-      a.src = '../dist/livetag.js';
-      g = i.getElementsByTagName('script')[0];
-      g.parentNode.insertBefore(a, g);
-    })(window, document, 'script');
-  </script>
-</head>
+  <body>
+    <h1>Livetag Demo Shop</h1>
 
-<body>
-<h1>Livetag Demo Shop</h1>
+    <div class="grid">
+      <div>
+        <button type="button" data-livetag>Watch Now</button>
+        <button type="button" data-livetag data-livetag-minimized>Watch Now (minimized)</button>
 
-<div class="grid">
-  <div>
-    <button type="button" data-livetag>Watch Now</button>
-    <button type="button" data-livetag data-livetag-minimized>Watch Now (minimized)</button>
-    <button id="watch-session" type="button">Watch Session</button>
-
-    <input type="text" name="sessionId" placeholder="Session Id"/>
-  </div>
-</div>
-
-</body>
+        <div>
+          <button id="watch-session" type="button">Watch Session</button>
+          <input type="text" name="sessionId" placeholder="Session Id" />
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
