@@ -210,6 +210,7 @@
       class:livetag__box--minimized={minimized}
       class:livetag__box--mobile={isMobile}
       class:livetag__box--touch={hasTouch}
+      class:livetag__box--ready={ready}
       style="transform:{translateStyle}"
       use:drag={minimized}
       use:touched={3000}
@@ -333,6 +334,7 @@
     overscroll-behavior: none;
     z-index: 2147483647;
     will-change: transform;
+    transition: background-color 0.2s ease;
   }
 
   .livetag__box--minimized {
@@ -348,6 +350,10 @@
       0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
     border-radius: 10px;
     overflow: hidden;
+  }
+
+  .livetag__box--minimized.livetag__box--ready {
+    background-color: transparent;
   }
 
   .livetag__overlay {
