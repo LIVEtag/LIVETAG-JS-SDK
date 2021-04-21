@@ -68,6 +68,7 @@
   class:livetag__iframe--ready={ready}
   {src}
   on:load={handleLoad}
+  allow="autoplay"
   allowtransparency="true"
 />
 
