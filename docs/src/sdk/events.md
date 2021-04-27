@@ -18,6 +18,23 @@ interface Product {
 }
 ```
 
+Product example:
+```js
+const product = {
+  externalId: '2',
+  title: 'Product 2',
+  link: 'https://www.amazon.com/Product-2/dp/4FSSYE8UZF/',
+  photo: 'https://i.etsystatic.com/21160692/r/il/a1f7ab/2871882391/il_794xN.2871882391_dm4p.jpg',
+  quantity: 1,
+  option: {
+    sku: '0ef9a862-afbd-473b-b0ec-808903e196c1',
+    price: '509.3',
+    'option size': 'M',
+    'option color': 'Black'
+  }
+}
+```
+
 ### onReady
 Triggers when the widget (☝️not SDK) is open and ready to operate.
 ```typescript
