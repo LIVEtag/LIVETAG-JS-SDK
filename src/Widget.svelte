@@ -1,14 +1,28 @@
 <script>
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
+  import { createWidgetUrl } from './create-widget-url';
+  import { isMobileBrowser } from './device-type';
   import { createSignal, SIGNAL_INIT, SIGNAL_READY } from './signal';
 
-  export let src = '';
+  export let params = {
+    widgetUrl: '',
+    shopUri: '',
+    shopUrl: '',
+    uid: '',
+    sessionId: '',
+  };
   export let ready = false;
   export let timeout = 30000;
   export let onLoad = (port) => undefined;
   export let onSignal = (event) => undefined;
   export let onError = () => undefined;
 
+  $: src = createWidgetUrl(params.widgetUrl, params.shopUri, {
+    uid: params.uid,
+    sessionId: params.sessionId,
+    shopUrl: params.shopUrl,
+    isDesktop: !isMobileBrowser(),
+  });
   $: origin = new URL(src).origin;
 
   let timeoutId;
@@ -18,19 +32,17 @@
     timeoutId = setTimeout(() => {
       onError();
     }, timeout);
-  });
 
-  onDestroy(() => {
-    clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
 
-    removeOnMessageListener();
+      removeOnMessageListener();
+    };
   });
 
   function removeOnMessageListener() {
-    if (onMessage) {
-      window.removeEventListener('message', onMessage);
-      onMessage = undefined;
-    }
+    window.removeEventListener('message', onMessage);
+    onMessage = undefined;
   }
 
   function registerOnMessageListener(frame, channel) {
