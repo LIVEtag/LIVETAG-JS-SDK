@@ -28,19 +28,19 @@ Livetag.close();
 ```
 
 ### destroy
-Closes the widget, destroys the application SDK instance and deregisters event listeners. You must use the [init](#init) method to re-initialize.
+Close the widget, destroy the application SDK instance and deregister event listeners. You must use the [init](#init) method to re-initialize.
 ```js
 Livetag.destroy();
 ```
 
 ### minimize
-Minimize opened widget or opens widget in minimized mode.
+Minimize opened widget or open widget in minimized mode.
 ```js
 Livetag.minimize();
 ```
 
 ### maximize
-Maximize minimized widget or opens widget in standard mode.
+Maximize minimized widget or open widget in standard mode.
 ```js
 Livetag.maximize();
 ```
