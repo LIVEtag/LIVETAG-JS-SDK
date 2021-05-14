@@ -55,10 +55,13 @@ Next, you need to add a button to launch the widget. There are two options:
       });
     });
     ```
+#### Advanced steps
+Check out all the [methods](../sdk/methods.md) and [events](../sdk/events.md) provided by the Livetag SDK.
 
 #### Shopping cart
 
-In order to get products to the shopping cart of your site you need to implement handling of event [addToCart](../sdk/events.md#onaddtocart) from the widget.
+In order to get products to the shopping cart of your site you need to implement handling of events [onAddToCart](../sdk/events.md#onaddtocart) and/or [onCheckout](../sdk/events.md#oncheckout) from the widget.
 
-#### Advanced steps
-Check out all the [methods](../sdk/methods.md) and [events](../sdk/events.md) provided by the Livetag SDK.
+#### Recorded Livestreams
+
+See [how to use recorded livestreams](../recorded-livestreams/README.md).
