@@ -83,6 +83,11 @@ module.exports = {
         collapsable: false,
       },
       {
+        title: 'Recorded Livestreams',
+        path: '/recorded-livestreams/',
+        collapsable: false,
+      },
+      {
         title: 'Widget SDK',
         collapsable: false,
         sidebarDepth: 1,
