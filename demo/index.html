@@ -54,6 +54,14 @@
           Livetag.onAddToCart(function (product) {
             console.log('Product added to cart', product);
           });
+
+          Livetag.onCheckout(function (products) {
+            console.log('Checkout', products);
+          });
+
+          document.getElementById('watch-session').addEventListener('click', function (e) {
+            Livetag.open(document.querySelector('[name=sessionId]').value);
+          });
         });
 
         a = i.createElement(v);
