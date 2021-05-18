@@ -23,9 +23,7 @@
   } from './signal';
   import { generateUid, getUid, storeUid } from './uid';
   import Widget from './Widget.svelte';
-  import { widget } from './widgetStore';
-
-  let shopUrl = window.location.href;
+  import { widget } from './widget.store';
 
   let uid = getUid() || generateUid();
   storeUid(uid);
@@ -38,6 +36,7 @@
   //
   // Shop props
   //
+  export let shopUrl;
   export let shopUri;
   export let widgetUrl;
   export let sessionId = null;
@@ -98,7 +97,7 @@
   afterUpdate(() => {
     signal(SIGNAL_MINIMIZE, minimized);
 
-    widget.set({ open, minimized, sessionId, translate });
+    widget.set({ open, minimized, sessionId, translate, shopUrl });
   });
 
   //
@@ -109,6 +108,7 @@
     minimized = state.minimized || state.open;
     sessionId = state.sessionId;
     translate = state.translate;
+    shopUrl = state.shopUrl;
   });
 
   function close() {
@@ -171,10 +171,6 @@
 
   function onSignal(event) {
     const { data } = event;
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Livetag] Signal', data);
-    }
 
     if (signalHandlers[data.type]) {
       signalHandlers[data.type](event, data.payload);
