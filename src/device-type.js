@@ -1,2 +1,1 @@
-export const isMobileBrowser = () => window.innerWidth < 1280;
-export const isDesktopBrowser = () => window.innerWidth >= 1280;
+export const isMobileBrowser = () => window.innerWidth < 1280 || window.innerHeight < 625;
