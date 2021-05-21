@@ -83,8 +83,18 @@ module.exports = {
         collapsable: false,
       },
       {
+        title: 'Scheduled Livestreams',
+        path: '/scheduled-livestreams/',
+        collapsable: false,
+      },
+      {
         title: 'Recorded Livestreams',
         path: '/recorded-livestreams/',
+        collapsable: false,
+      },
+      {
+        title: 'Share Livestream',
+        path: '/share-livestream/',
         collapsable: false,
       },
       {
