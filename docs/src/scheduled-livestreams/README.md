@@ -2,16 +2,16 @@
 
 Scheduled livestreams are livestreams that are scheduled to start at a certain time.
 
-Scheduled livestream may contain a cover image or video and products.
+Scheduled livestream may contain a cover image or video that will be displayed before you start the show.
 
-You can schedule livestream through the admin panel.
+You can schedule the livestream through the admin panel.
 
 To create a scheduled livestream you need to do the following simple steps:
 1. Log in to the admin panel using your shop access details.
-2. Create livestream on the **Livestreams** page:
-   - Specify name of livestream.
+2. Create the livestream on the **Livestreams** page:
+   - Specify the name of livestream.
    - Select start date and time.
-   - Select necessary duration.
+   - Select the necessary duration.
    - Upload cover image or video. Recommended aspect ratio is 9/16 (portrait orientation). For example, 720x1280px.
    - Select products.
 2. Go to livestream details.
@@ -20,7 +20,7 @@ To create a scheduled livestream you need to do the following simple steps:
 ```html
 <button type="button" data-livetag="{sessionId}">Watch scheduled livestream</button>
 ```
-Where `{sessionId}` is the ID of the scheduled livestream.
+Where `{sessionId}` is the ID of the scheduled livestream which is preset in the snippet.
 
 ----
 
