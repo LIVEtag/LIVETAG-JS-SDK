@@ -9,7 +9,7 @@ Every livestream is automatically recorded, so there are a few simple steps to s
 ```html
 <button type="button" data-livetag="{sessionId}">Watch recorded livestream</button>
 ```
-Where `{sessionId}` is the ID of the recorded livestream.
+Where `{sessionId}` is the ID of the recorded livestream which is preset in the snippet.
 
 ----
 
@@ -39,5 +39,5 @@ Where `sessionId` is the ID of the recorded livestream.
 
 #### Helpful information
 
-- There will be available comments and likes left during the livestream, as well as a list of products, in the recorded livestream.
-- Recorded Livestream in the widget is displayed with a Recorded label instead of a timer.
+- The likes and comments added during the livestream will be displayed on the recording. As well as displayed products.
+- Recorded Livestream in the widget is displayed with a "Recorded" label instead of a timer.

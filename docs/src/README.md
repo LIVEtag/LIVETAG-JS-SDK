@@ -4,10 +4,6 @@ Welcome to LiveTag Video Streaming Documentation.
 
 ## What is LiveTag?
 
-<div style="text-align: center;margin: 2em 0">
-    <img src="./functional-schema.png" style="max-height: 512px" alt="Livetag Functional Schema">
-</div>
-
 With Live stream shopping estimated to account for over 20% of China’s online shopping in, brands need to adapt and turn their live stream video into shoppable interactive experiences.
 * Check out of our add-to-cart function which can boost the conversion rates on live show by 30%.  
 * Stream whenever and wherever to your audience.
@@ -27,5 +23,8 @@ Here you can find all the information about how to use LiveTag as an online-shop
 6. End livestream whenever you want.
 7. Check statistics on the livestream.
 
-
 See [presentation](https://docs.google.com/presentation/d/1264aBJpSVf6-YZspPkmXR4Wb9T0E1vDlISA8QyQHDhc).
+
+<div style="text-align: center;margin: 2em 0">
+    <img src="./functional-schema.jpg" style="max-height: 512px" alt="Livetag Functional Schema">
+</div>
