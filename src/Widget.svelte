@@ -17,6 +17,7 @@
   export let onSignal = (event) => undefined;
   export let onError = () => undefined;
 
+  let src;
   $: src = createWidgetUrl(params.widgetUrl, params.shopUri, {
     uid: params.uid,
     sessionId: params.sessionId,
@@ -80,7 +81,7 @@
   class:livetag__iframe--ready={ready}
   {src}
   on:load={handleLoad}
-  allow="autoplay"
+  allow="autoplay; clipboard-write"
   allowtransparency="true"
 />
 
