@@ -124,12 +124,10 @@
     }
 
     minimized = true;
-    translate = null;
   }
 
   function restore() {
     minimized = false;
-    translate = null;
   }
 
   const signalHandlers = {
