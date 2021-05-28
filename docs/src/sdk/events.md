@@ -13,7 +13,7 @@ interface Product {
   option: {
     sku: string;
     price: number;
-    [key: string]: string;
+    option: string;
   }
 }
 ```
@@ -29,8 +29,7 @@ const product = {
   option: {
     sku: '0ef9a862-afbd-473b-b0ec-808903e196c1',
     price: '509.3',
-    'option size': 'M',
-    'option color': 'Black'
+    option: 'Black - M'
   }
 }
 ```
