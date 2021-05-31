@@ -55,7 +55,7 @@ module.exports = {
     docsDir: '',
     editLinkText: '',
     lastUpdated: true,
-    displayAllHeaders: true,
+    displayAllHeaders: false,
     sidebarDepth: 3,
     nav: [
       {
@@ -80,6 +80,11 @@ module.exports = {
       {
         title: 'Widget Setup',
         path: '/setup/',
+        collapsable: false,
+      },
+      {
+        title: 'Shopify Setup',
+        path: '/shopify/',
         collapsable: false,
       },
       {
