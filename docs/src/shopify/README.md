@@ -1,13 +1,13 @@
 # Shopify Setup
 
-## 1. [Add script](../setup/README.md#_1-add-script).
+## 1. [Add script](../setup/README.md#_1-add-script)
 
 ## 2. Implement addToCart( ) and/or checkout( ) methods
 
 To have opportunity for widget to add products to shopping cart of you store, methods described below should be
 implemented.
 
-### 2.1 Add to cart example
+### 2.1. Add to cart example
 
 ```js
 livetag.onAddToCart(function(product) {
@@ -37,7 +37,7 @@ livetag.onAddToCart(function(product) {
 
 See [Product](../sdk/events.md#product-definition) definition.
 
-### 2.2 Checkout example
+### 2.2. Checkout example
 
 ```js
 livetag.onCheckout(function(products) {
@@ -69,4 +69,4 @@ livetag.onCheckout(function(products) {
 
 See [Product](../sdk/events.md#product-definition) definition.
 
-## 3. [Create button](../setup/README.md#_2-create-button).
+## 3. [Create button](../setup/README.md#_2-create-button)
