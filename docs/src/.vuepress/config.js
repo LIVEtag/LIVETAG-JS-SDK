@@ -83,11 +83,6 @@ module.exports = {
         collapsable: false,
       },
       {
-        title: 'Shopify Setup',
-        path: '/shopify/',
-        collapsable: false,
-      },
-      {
         title: 'Scheduled Livestreams',
         path: '/scheduled-livestreams/',
         collapsable: false,
@@ -100,6 +95,11 @@ module.exports = {
       {
         title: 'Share Livestream',
         path: '/share-livestream/',
+        collapsable: false,
+      },
+      {
+        title: 'Shopify Setup',
+        path: '/shopify/',
         collapsable: false,
       },
       {
