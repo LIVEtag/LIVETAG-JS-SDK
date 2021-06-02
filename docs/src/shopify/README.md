@@ -69,4 +69,6 @@ livetag.onCheckout(function(products) {
 
 See [Product](../sdk/events.md#product-definition) definition.
 
+More examples can be found on Shopify Dev Docs [Cart API reference](https://shopify.dev/docs/themes/ajax-api/reference/cart).
+
 ## 3. [Create button](../setup/README.md#_2-create-button)
